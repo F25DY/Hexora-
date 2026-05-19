@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-HexoraApplication<hexora>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.hexora.hexora.HexoraApplication",
+            "projectName": "hexora",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
