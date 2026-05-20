@@ -1,5 +1,6 @@
 package com.hexora.hexora.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -34,7 +35,7 @@ public class Vulnerabilidad {
     private String ipAfectada;
 
     @Column(name="puertoAfectado")
-    private int puerto;
+    private Integer puerto;
 
     @Column(length = 100)
     private String servicio;
@@ -54,8 +55,8 @@ public class Vulnerabilidad {
     @Column(nullable = false)
     private int probabilidad;
 
-    @Column(nullable = false, scale = 4, precision = 2)
-    private Double impacto;
+    @Column(nullable = false, precision = 4, scale = 2)
+    private BigDecimal impacto;
 
     @Column(nullable = false, length = 20)
     private String nivelRiesgo;
@@ -77,13 +78,11 @@ public class Vulnerabilidad {
 
     public Vulnerabilidad() {
     }
-
+    
     public Vulnerabilidad(Long id, String nombre, String tipo, String herramienta, String host, String ipAfectada,
             int puerto, String servicio, String cve, int confidencialidad, int integridad, int disponibilidad,
-            int probabilidad, Double impacto, String nivelRiesgo, String planMitigacion,
-            String estado, LocalDate fechaDeteccion, AreaAuditable areaAuditable, String descripcion,
-            String methodDescubrimiento, String protocolo, double cvss, String cwe, String recomendacionTecnica,
-            String observaciones) {
+            int probabilidad, BigDecimal impacto, String nivelRiesgo, String planMitigacion, String estado,
+            LocalDate fechaDeteccion, AreaAuditable areaAuditable) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -106,7 +105,7 @@ public class Vulnerabilidad {
     }
 
     //Getters y Setters
-    
+
     public Long getId() {
         return id;
     }
@@ -195,11 +194,11 @@ public class Vulnerabilidad {
         this.probabilidad = probabilidad;
     }
 
-    public Double getImpacto() {
+    public BigDecimal getImpacto() {
         return impacto;
     }
 
-    public void setImpacto(Double impacto) {
+    public void setImpacto(BigDecimal impacto) {
         this.impacto = impacto;
     }
 
