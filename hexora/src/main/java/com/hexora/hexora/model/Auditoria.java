@@ -1,24 +1,56 @@
 package com.hexora.hexora.model;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name= "auditoria")
 public class Auditoria {
 
-    //Atributos
-
-    private Long id;
+    //Definimos Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_auditoria")
+    private Long idAuditoria;
+    
+    @Column(nullable= false, length=150)
     private String nombre;
+
+    @Column(name = "tipo_auditoria", nullable = false, length = 80)
     private String tipoAuditoria;
-    private String fechaInico;
-    private String fechaFin;
+
+    @Column(nullable = false)
+    private LocalDate fechaInico;
+
+    @Column(nullable = false)
+    private LocalDate fechaFin;
+
+    @Column(nullable = false, length = 30)
     private String estado;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
+
+    //@ManyToOne
+    //@JoinColumn(name = "auditor", nullable = false)
+    //private Usuario auditor;
     
     //Constructores
     public Auditoria() {
     }
 
-    public Auditoria(Long id, String nombre, String tipoAuditoria, String fechaInico, String fechaFin, String estado,
+    public Auditoria(Long idAuditoria, String nombre, String tipoAuditoria, LocalDate fechaInico, LocalDate fechaFin, String estado,
             Empresa empresa) {
-        this.id = id;
+        this.idAuditoria = idAuditoria;
         this.nombre = nombre;
         this.tipoAuditoria = tipoAuditoria;
         this.fechaInico = fechaInico;
@@ -29,12 +61,12 @@ public class Auditoria {
 
     //Getters y Setters
 
-    public Long getId() {
-        return id;
+    public Long getIdAuditoria() {
+        return idAuditoria;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdAuditoria(Long idAuditoria) {
+        this.idAuditoria = idAuditoria;
     }
 
     public String getNombre() {
@@ -53,19 +85,19 @@ public class Auditoria {
         this.tipoAuditoria = tipoAuditoria;
     }
 
-    public String getFechaInico() {
+    public LocalDate getFechaInico() {
         return fechaInico;
     }
 
-    public void setFechaInico(String fechaInico) {
+    public void setFechaInico(LocalDate fechaInico) {
         this.fechaInico = fechaInico;
     }
 
-    public String getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(String fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 

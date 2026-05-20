@@ -2,37 +2,75 @@ package com.hexora.hexora.model;
 
 import java.time.LocalDate;
 
-public class Vulnerabilidad {
-    private Long id;
-    private String nombre;
-    private String descripcion;
-    private String tipo;
-    private String methodDescubrimiento;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "vulnerabilidad")
+public class Vulnerabilidad {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 150)
+    private String nombre;
+
+    @Column(nullable = false, length = 100)
+    private String tipo;
+
+    @Column(length = 100)
+    private String herramienta;
+
+    @Column(name="hostAfectado", length = 150)
     private String host;
+
+    @Column(length = 45)
+    private String ipAfectada;
+
+    @Column(name="puertoAfectado")
     private int puerto;
-    private String protocolo;
+
+    @Column(length = 100)
     private String servicio;
 
+    @Column(length = 30)
     private String cve;
-    private double cvss;
-    private String cwe;
 
+    @Column(nullable = false)
     private int confidencialidad;
+
+    @Column(nullable = false)
     private int integridad;
+
+    @Column(nullable = false)
     private int disponibilidad;
+
+    @Column(nullable = false)
     private int probabilidad;
 
+    @Column(nullable = false, scale = 4, precision = 2)
     private Double impacto;
-    private Double riesgo;
+
+    @Column(nullable = false, length = 20)
     private String nivelRiesgo;
 
+    @Column(columnDefinition = "TEXT")
     private String planMitigacion;
-    private String recomendacionTecnica;
+
+    @Column(nullable = false, length = 30)
     private String estado;
-    private String observaciones;
+
+    @Column(name = "fechaDescubrimiento", nullable = false)
     private LocalDate fechaDeteccion;
 
+    @ManyToOne
+    @JoinColumn(name = "id_area", nullable = false)
     private AreaAuditable areaAuditable;
 
     //Constructores
@@ -40,34 +78,29 @@ public class Vulnerabilidad {
     public Vulnerabilidad() {
     }
 
-    public Vulnerabilidad(Long id, String nombre, String descripcion, String tipo, String methodDescubrimiento,
-            String host, int puerto, String protocolo, String servicio, String cve, double cvss, String cwe,
-            int confidencialidad, int integridad, int disponibilidad, int probabilidad, Double impacto, Double riesgo,
-            String nivelRiesgo, String planMitigacion, String recomendacionTecnica, String estado, String observaciones,
-            LocalDate fechaDeteccion, AreaAuditable areaAuditable) {
+    public Vulnerabilidad(Long id, String nombre, String tipo, String herramienta, String host, String ipAfectada,
+            int puerto, String servicio, String cve, int confidencialidad, int integridad, int disponibilidad,
+            int probabilidad, Double impacto, String nivelRiesgo, String planMitigacion,
+            String estado, LocalDate fechaDeteccion, AreaAuditable areaAuditable, String descripcion,
+            String methodDescubrimiento, String protocolo, double cvss, String cwe, String recomendacionTecnica,
+            String observaciones) {
         this.id = id;
         this.nombre = nombre;
-        this.descripcion = descripcion;
         this.tipo = tipo;
-        this.methodDescubrimiento = methodDescubrimiento;
+        this.herramienta = herramienta;
         this.host = host;
+        this.ipAfectada = ipAfectada;
         this.puerto = puerto;
-        this.protocolo = protocolo;
         this.servicio = servicio;
         this.cve = cve;
-        this.cvss = cvss;
-        this.cwe = cwe;
         this.confidencialidad = confidencialidad;
         this.integridad = integridad;
         this.disponibilidad = disponibilidad;
         this.probabilidad = probabilidad;
         this.impacto = impacto;
-        this.riesgo = riesgo;
         this.nivelRiesgo = nivelRiesgo;
         this.planMitigacion = planMitigacion;
-        this.recomendacionTecnica = recomendacionTecnica;
         this.estado = estado;
-        this.observaciones = observaciones;
         this.fechaDeteccion = fechaDeteccion;
         this.areaAuditable = areaAuditable;
     }
@@ -90,28 +123,12 @@ public class Vulnerabilidad {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public String getMethodDescubrimiento() {
-        return methodDescubrimiento;
-    }
-
-    public void setMethodDescubrimiento(String methodDescubrimiento) {
-        this.methodDescubrimiento = methodDescubrimiento;
     }
 
     public String getHost() {
@@ -130,14 +147,6 @@ public class Vulnerabilidad {
         this.puerto = puerto;
     }
 
-    public String getProtocolo() {
-        return protocolo;
-    }
-
-    public void setProtocolo(String protocolo) {
-        this.protocolo = protocolo;
-    }
-
     public String getServicio() {
         return servicio;
     }
@@ -152,22 +161,6 @@ public class Vulnerabilidad {
 
     public void setCve(String cve) {
         this.cve = cve;
-    }
-
-    public double getCvss() {
-        return cvss;
-    }
-
-    public void setCvss(double cvss) {
-        this.cvss = cvss;
-    }
-
-    public String getCwe() {
-        return cwe;
-    }
-
-    public void setCwe(String cwe) {
-        this.cwe = cwe;
     }
 
     public int getConfidencialidad() {
@@ -210,14 +203,6 @@ public class Vulnerabilidad {
         this.impacto = impacto;
     }
 
-    public Double getRiesgo() {
-        return riesgo;
-    }
-
-    public void setRiesgo(Double riesgo) {
-        this.riesgo = riesgo;
-    }
-
     public String getNivelRiesgo() {
         return nivelRiesgo;
     }
@@ -234,28 +219,12 @@ public class Vulnerabilidad {
         this.planMitigacion = planMitigacion;
     }
 
-    public String getRecomendacionTecnica() {
-        return recomendacionTecnica;
-    }
-
-    public void setRecomendacionTecnica(String recomendacionTecnica) {
-        this.recomendacionTecnica = recomendacionTecnica;
-    }
-
     public String getEstado() {
         return estado;
     }
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
     }
 
     public LocalDate getFechaDeteccion() {
