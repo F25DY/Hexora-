@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexora - Nuevo Proyecto</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-plataforma">
+            <div class="textos-marca">
+                <img th:src="@{/imagen/logo.png}" width="40" alt="Logo">
+=======
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,11 +28,27 @@
         <div class="logo-plataforma">
             <div class="textos-marca">
                 <img src="/static/imagen/logo.png" width="40" alt="Logo">
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <span class="nombre-completo">Hexora</span>
             </div>
         </div>
 
+<<<<<<< HEAD
         <nav class="menu">
+=======
+<<<<<<< HEAD
+        <nav class="menu">
+            <ul>
+                <li>
+                    <a th:href="@{/inicio}" class="enlace-menu">
+                        <i class="fa-solid fa-house"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/proyectos}" class="enlace-menu activo">
+=======
+        <nav class="menu">   
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
             <ul>
                 <li>
                     <a href="dashboard" class="enlace-menu activo">
@@ -25,6 +57,7 @@
                 </li>
                 <li>
                     <a href="proyectos.html" class="enlace-menu">
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
@@ -34,7 +67,30 @@
         <div class="contenedor-usuario">
             <div class="info-perfil">
                 <div class="avatar-usuario">
+<<<<<<< HEAD
                     <i class="fa-solid fa-user-shield"></i>
+=======
+<<<<<<< HEAD
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="datos-texto">
+                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
+                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
+                </div>
+            </div>
+            <a th:href="@{/logout}" class="boton-cerrar-sesion">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+
+    <main class="contenido-principal">
+
+        <header class="encabezado-retorno">
+            <a th:href="@{/proyectos}" class="link-volver">
+=======
+                    <i class="fa-solid fa-user-shield"></i> 
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
                 </div>
                 <div class="datos-texto">
                     <span class="nombre-usuario">Analista</span>
@@ -50,6 +106,7 @@
     <main class="contenido-principal">
         <header class="encabezado-retorno">
             <a href="proyectos.html" class="link-volver">
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <div class="titulos-nuevo">
@@ -60,6 +117,7 @@
 
         <section class="tarjeta-blanca contenedor-formulario">
             <h3 class="seccion-form-titulo">Información Básica</h3>
+<<<<<<< HEAD
 
             <form action="/proyectos/guardar" method="post" id="form-nuevo-proyecto" class="form-proyecto" >
 
@@ -77,10 +135,47 @@
                     <div class="campo-grupo">
                         <label for="fechaProyecto">Fecha de Inicio <span class="requerido">*</span></label>
                         <input type="date" id="fechaProyecto" name="fechaProyecto" required>
+=======
+<<<<<<< HEAD
+
+            <form th:action="@{/proyectos/guardar}" th:object="${proyectoForm}" method="post" class="form-proyecto">
+
+                <div class="grid-form">
+                    <div class="campo-grupo">
+                        <label>Nombre del Proyecto <span class="requerido">*</span></label>
+                        <input type="text" th:field="*{nombre}" placeholder="Ej: Auditoría Sistema Bancario" required>
+=======
+            
+            <form id="form-nuevo-proyecto" class="form-proyecto">
+                <div class="grid-form">
+                    <div class="campo-grupo">
+                        <label>Nombre del Proyecto <span class="requerido">*</span></label>
+                        <input type="text" id="nombreProyecto" placeholder="Ej: Auditoría Sistema Bancario" required>
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Empresa / Auditoría <span class="requerido">*</span></label>
+<<<<<<< HEAD
+                        <input type="text" th:field="*{empresa}" placeholder="Ej: Banco Nacional" required>
+=======
+                        <input type="text" id="empresaProyecto" placeholder="Ej: Banco Nacional" required>
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Fecha de Inicio <span class="requerido">*</span></label>
+<<<<<<< HEAD
+                        <input type="date" th:field="*{fechaInicio}" required>
+=======
+                        <input type="date" id="fechaProyecto" required>
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
                     </div>
                 </div>
 
                 <div class="campo-grupo">
+<<<<<<< HEAD
                     <label for="descripcionProyecto">Descripción <span class="requerido">*</span></label>
                     <textarea id="descripcionProyecto" name="descripcionProyecto" rows="4" placeholder="Describe el alcance y objetivos del proyecto" required></textarea>
                 </div>
@@ -88,6 +183,23 @@
                 <div class="campo-grupo">
                     <label for="estadoProyecto">Estado <span class="requerido">*</span></label>
                     <select id="estadoProyecto" name="estadoProyecto" required>
+=======
+                    <label>Descripción <span class="requerido">*</span></label>
+<<<<<<< HEAD
+                    <textarea th:field="*{descripcion}" rows="4" placeholder="Describe el alcance y objetivos del proyecto" required></textarea>
+=======
+                    <textarea id="descripcionProyecto" rows="4" placeholder="Describe el alcance y objetivos del proyecto" required></textarea>
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+                </div>
+
+                <div class="campo-grupo">
+                    <label>Estado <span class="requerido">*</span></label>
+<<<<<<< HEAD
+                    <select th:field="*{estado}" required>
+=======
+                    <select id="estadoProyecto" required>
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
                         <option value="">Seleccionar estado</option>
                         <option value="Planificado">Planificado</option>
                         <option value="En Progreso">En progreso</option>
@@ -96,13 +208,31 @@
                 </div>
 
                 <div class="acciones-formulario">
+<<<<<<< HEAD
                     <button type="button" class="btn-cancelar">
                         <a th:href="@{/proyectos}">Cancelar</a>
+=======
+<<<<<<< HEAD
+                    <a th:href="@{/proyectos}">
+                        <button type="button" class="btn-cancelar">Cancelar</button>
+                    </a>
+=======
+                    <button type="button" class="btn-cancelar" onclick="window.location.href='proyectos.html'">
+                        Cancelar
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
                     </button>
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                     <button type="submit" class="btn-guardar">
                         <i class="fa-solid fa-floppy-disk"></i> Crear Proyecto
                     </button>
                 </div>
+<<<<<<< HEAD
+
+            </form>
+        </section>
+    </main>
+
+=======
             </form>
         </section>
     </main>
@@ -120,11 +250,30 @@
                 criticas: Math.floor(Math.random() * 4)
             };
 
+<<<<<<< HEAD
             const proyectos = JSON.parse(localStorage.getItem('proyectosHexora')) || [];
             proyectos.push(nuevoProyecto);
             localStorage.setItem('proyectosHexora', JSON.stringify(proyectos));
             window.location.href = 'proyectos.html';
         });
     </script>
+=======
+        // Obtenemos la lista actual de la memoria (o una vacía si no hay nada)
+        let proyectos = JSON.parse(localStorage.getItem('proyectosHexora')) || [];
+
+        // Guardamos el nuevo proyecto en la lista
+        proyectos.push(nuevoProyecto);
+
+        // Actualizamos la memoria del navegador
+        localStorage.setItem('proyectosHexora', JSON.stringify(proyectos));
+
+        // Saltamos a la página de la tabla
+        window.location.href = 'proyectos.html';
+    });
+</script>
+
+    
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
 </body>
 </html>

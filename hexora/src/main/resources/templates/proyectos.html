@@ -1,5 +1,25 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="es">
+=======
+<<<<<<< HEAD
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexora - Proyectos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-plataforma">
+            <div class="textos-marca">
+                <img th:src="@{/imagen/logo.png}" width="40" alt="Logo">
+=======
+<html lang="en">
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +32,27 @@
         <div class="logo-plataforma">
             <div class="textos-marca">
                 <img src="/static/imagen/logo.png" width="40" alt="Logo">
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <span class="nombre-completo">Hexora</span>
             </div>
         </div>
 
+<<<<<<< HEAD
         <nav class="menu">
+=======
+<<<<<<< HEAD
+        <nav class="menu">
+            <ul>
+                <li>
+                    <a th:href="@{/inicio}" class="enlace-menu">
+                        <i class="fa-solid fa-house"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/proyectos}" class="enlace-menu activo">
+=======
+        <nav class="menu">   
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
             <ul>
                 <li>
                     <a href="dashboard" class="enlace-menu activo">
@@ -25,6 +61,7 @@
                 </li>
                 <li>
                     <a href="proyectos.html" class="enlace-menu">
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
@@ -34,13 +71,30 @@
         <div class="contenedor-usuario">
             <div class="info-perfil">
                 <div class="avatar-usuario">
+<<<<<<< HEAD
                     <i class="fa-solid fa-user-shield"></i>
+=======
+<<<<<<< HEAD
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="datos-texto">
+                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
+                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
+                </div>
+            </div>
+            <a th:href="@{/logout}" class="boton-cerrar-sesion">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            </a>
+=======
+                    <i class="fa-solid fa-user-shield"></i> 
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
                 </div>
                 <div class="datos-texto">
                     <span class="nombre-usuario">Analista</span>
                     <span class="correo-usuario">analista@gmail.com</span>
                 </div>
             </div>
+<<<<<<< HEAD
             <a href="index.html" class="boton-cerrar-sesion">
                 <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
             </a>
@@ -55,6 +109,135 @@
                 <span class="punto-alerta"></span>
             </div>
         </header>
+=======
+           <a href="index.html" class="boton-cerrar-sesion">
+    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+</a>
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+        </div>
+    </aside>
+
+    <header class="barra-superior">
+<<<<<<< HEAD
+        <h1 class="titulo-principal">Gestión de Proyectos</h1>
+        <div class="contenedor-notificaciones">
+            <i class="fa-solid fa-bell"></i>
+            <span class="punto-alerta"></span>
+        </div>
+    </header>
+
+    <main class="contenido-principal">
+
+        <section class="cabecera-gestion">
+            <div class="texto-cabecera">
+                <h2 class="titulo-interno">Gestión de Proyectos</h2>
+                <p class="subtitulo">Administra tus proyectos de auditoría y pentesting</p>
+            </div>
+            <a th:href="@{/proyectos/nuevo}" style="text-decoration: none;">
+                <button class="btn-crear">
+                    <i class="fa-solid fa-plus"></i> Crear Proyecto
+                </button>
+            </a>
+        </section>
+
+        <section class="tarjeta-blanca contenedor-busqueda">
+            <div class="campo-busqueda">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="buscador"
+                       placeholder="Buscar proyectos por nombre o empresa..."
+                       onkeyup="filtrarTabla()">
+            </div>
+        </section>
+
+        <table class="tabla-hexora">
+            <thead>
+                <tr>
+                    <th>Proyecto</th>
+                    <th>Empresa</th>
+                    <th>Estado</th>
+                    <th>Departamentos</th>
+                    <th>Vulnerabilidades</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(proyectos)}">
+                    <td colspan="6" style="text-align: center;">No hay proyectos registrados</td>
+                </tr>
+
+                <tr th:each="proy : ${proyectos}">
+
+                    <!-- Nombre clickeable que lleva al detalle -->
+                    <td class="nombre-destacado">
+                        <a th:href="@{/proyectos/{id}(id=${proy.id})}"
+                           style="text-decoration: none; color: inherit;">
+                            <span th:text="${proy.nombre}"></span>
+                        </a>
+                    </td>
+
+                    <td class="texto-empresa">
+                        <i class="fa-solid fa-building"></i>
+                        <span th:text="${proy.empresa}"></span>
+                    </td>
+
+                    <td>
+                        <span th:text="${proy.estado}"
+                              th:classappend="${proy.estado == 'Completado'} ? 'badge-verde' :
+                                             (${proy.estado == 'Planificado'} ? 'badge-gris' : 'badge-azul')"
+                              class="badge">
+                        </span>
+                    </td>
+
+                    <td th:text="${proy.departamentos}"></td>
+
+                    <td class="vulns-info">
+                        <span th:text="${proy.vulnerabilidades}"></span>
+                        <span class="criticas-text" th:if="${proy.criticas > 0}">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span th:text="${proy.criticas} + ' críticas'"></span>
+                        </span>
+                    </td>
+
+                    <!-- Botón eliminar en columna Acciones (corrección del docente) -->
+                    <td>
+                        <form th:action="@{/proyectos/eliminar/{id}(id=${proy.id})}" method="post">
+                            <button type="submit" class="btn-eliminar"
+                                    onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="contador-proyectos"
+           th:if="${not #lists.isEmpty(proyectos)}"
+           th:text="'Mostrando ' + ${#lists.size(proyectos)} + ' de ' + ${#lists.size(proyectos)} + ' proyectos'">
+        </p>
+
+    </main>
+
+    <script>
+        function filtrarTabla() {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const filas = document.querySelectorAll('tbody tr');
+            filas.forEach(fila => {
+                const contenido = fila.textContent.toLowerCase();
+                fila.style.display = contenido.includes(texto) ? '' : 'none';
+            });
+        }
+    </script>
+
+=======
+    <h1 class="titulo-principal">Gestión de Proyectos</h1>
+    <div class="contenedor-notificaciones">
+        <i class="fa-solid fa-bell"></i>
+        <span class="punto-alerta"></span>
+    </div>
+</header>
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
 
         <section class="cabecera-gestion">
             <div class="texto-cabecera">
@@ -128,6 +311,7 @@
             });
         }
 
+<<<<<<< HEAD
         function eliminarProyecto(index) {
             const proyectos = JSON.parse(localStorage.getItem('proyectosHexora')) || [];
             proyectos.splice(index, 1);
@@ -137,5 +321,10 @@
 
         document.addEventListener('DOMContentLoaded', cargarProyectos);
     </script>
+=======
+</main>
+    
+>>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+>>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
 </body>
 </html>
