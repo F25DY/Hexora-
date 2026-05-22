@@ -1,33 +1,16 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="es">
-=======
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-=======
- <!DOCTYPE html>
-<html lang="en">
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hexora</title>
-<<<<<<< HEAD
     <link rel="stylesheet" th:href="@{/css/style.css}">
-=======
-    <link rel="stylesheet" href="/static/css/style.css">
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
 </head>
+
 <body>
     <main>
         <section class="login">
             <header>
-<<<<<<< HEAD
-                <img src="/static/imagen/logo.png" alt="Hexora">
-=======
-<<<<<<< HEAD
                 <img th:src="@{/imagen/logo.png}" alt="Logo Hexora">
                 <h1>Hexora</h1>
                 <p>Plataforma de Gestión de Vulnerabilidades</p>
@@ -38,8 +21,8 @@
                 <label for="email">Correo Electrónico</label>
                 <input type="email" id="email" name="email" placeholder="usuario@gmail.com" required>
 
-                <label for="contraseña">Contraseña</label>
-                <input type="password" id="contraseña" name="password" placeholder="••••••••" required>
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" name="password" placeholder="••••••••" required>
 
                 <!-- Mensaje de error si las credenciales son incorrectas -->
                 <p th:if="${error}" th:text="${error}" style="color:red;"></p>
@@ -56,39 +39,5 @@
     <footer class="pie-pagina-login">
         <p>Secure Access &bull; Encrypted Connection</p>
     </footer>
-=======
-                <img src="/static/imagen/logo.png" alt="">
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
-                <h1>Hexora</h1>
-                <p>Plataforma de Gestión de Vulnerabilidades</p>
-            </header>
-
-            <form class="form-login" action="dashboard" method="get">
-                <div class="campo-grupo">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" placeholder="usuario@gmail.com" required>
-                </div>
-                <div class="campo-grupo">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primario">Iniciar Sesión</button>
-            </form>
-
-            <a href="#" class="enlace-olvido">¿Olvidaste tu contraseña?</a>
-        </section>
-    </main>
-<<<<<<< HEAD
-
-    <footer class="pie-pagina-login">
-        <p>Secure Access &bull; Encrypted Connection</p>
-    </footer>
-=======
-       </section>  
-       <footer class="pie-pagina-login">
-  <p>Secure Access &bull; Encrypted Connection</p>
-</footer>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
 </body>
 </html>

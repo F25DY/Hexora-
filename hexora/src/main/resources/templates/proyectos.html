@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="es">
-=======
-<<<<<<< HEAD
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -17,51 +13,20 @@
         <div class="logo-plataforma">
             <div class="textos-marca">
                 <img th:src="@{/imagen/logo.png}" width="40" alt="Logo">
-=======
-<html lang="en">
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hexora - Proyectos</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-    
-</head>
-<body>
-    <aside class="sidebar">
-        <div class="logo-plataforma">
-            <div class="textos-marca">
-                <img src="/static/imagen/logo.png" width="40" alt="Logo">
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <span class="nombre-completo">Hexora</span>
             </div>
         </div>
 
-<<<<<<< HEAD
-        <nav class="menu">
-=======
-<<<<<<< HEAD
         <nav class="menu">
             <ul>
                 <li>
-                    <a th:href="@{/inicio}" class="enlace-menu">
+                    <a th:href="@{/dashboard}" class="enlace-menu">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                 </li>
+
                 <li>
                     <a th:href="@{/proyectos}" class="enlace-menu activo">
-=======
-        <nav class="menu">   
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
-            <ul>
-                <li>
-                    <a href="dashboard" class="enlace-menu activo">
-                        <i class="fa-solid fa-house"></i> Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="proyectos.html" class="enlace-menu">
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
@@ -69,192 +34,59 @@
         </nav>
 
         <div class="contenedor-usuario">
+
             <div class="info-perfil">
+
                 <div class="avatar-usuario">
-<<<<<<< HEAD
-                    <i class="fa-solid fa-user-shield"></i>
-=======
-<<<<<<< HEAD
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
+
                 <div class="datos-texto">
                     <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
                     <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
                 </div>
+
             </div>
-            <a th:href="@{/logout}" class="boton-cerrar-sesion">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-            </a>
-=======
-                    <i class="fa-solid fa-user-shield"></i> 
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
-                </div>
-                <div class="datos-texto">
-                    <span class="nombre-usuario">Analista</span>
-                    <span class="correo-usuario">analista@gmail.com</span>
-                </div>
+
+            <div>
+                <a th:href="@{/logout}" class="boton-cerrar-sesion">
+                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                </a>
             </div>
-<<<<<<< HEAD
+
             <a href="index.html" class="boton-cerrar-sesion">
                 <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
             </a>
+
         </div>
     </aside>
-
-    <main class="contenido-principal">
-        <header class="barra-superior">
-            <h1 class="titulo-principal">Gestión de Proyectos</h1>
-            <div class="contenedor-notificaciones">
-                <i class="fa-solid fa-bell"></i>
-                <span class="punto-alerta"></span>
-            </div>
-        </header>
-=======
-           <a href="index.html" class="boton-cerrar-sesion">
-    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-</a>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
-        </div>
-    </aside>
-
-    <header class="barra-superior">
-<<<<<<< HEAD
-        <h1 class="titulo-principal">Gestión de Proyectos</h1>
-        <div class="contenedor-notificaciones">
-            <i class="fa-solid fa-bell"></i>
-            <span class="punto-alerta"></span>
-        </div>
-    </header>
 
     <main class="contenido-principal">
 
         <section class="cabecera-gestion">
+
             <div class="texto-cabecera">
                 <h2 class="titulo-interno">Gestión de Proyectos</h2>
                 <p class="subtitulo">Administra tus proyectos de auditoría y pentesting</p>
             </div>
-            <a th:href="@{/proyectos/nuevo}" style="text-decoration: none;">
+
+            <a th:href="@{/proyectos/nuproyectos}" style="text-decoration: none;">
                 <button class="btn-crear">
                     <i class="fa-solid fa-plus"></i> Crear Proyecto
                 </button>
             </a>
+
         </section>
 
         <section class="tarjeta-blanca contenedor-busqueda">
+
             <div class="campo-busqueda">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="buscador"
-                       placeholder="Buscar proyectos por nombre o empresa..."
-                       onkeyup="filtrarTabla()">
-            </div>
-        </section>
-
-        <table class="tabla-hexora">
-            <thead>
-                <tr>
-                    <th>Proyecto</th>
-                    <th>Empresa</th>
-                    <th>Estado</th>
-                    <th>Departamentos</th>
-                    <th>Vulnerabilidades</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:if="${#lists.isEmpty(proyectos)}">
-                    <td colspan="6" style="text-align: center;">No hay proyectos registrados</td>
-                </tr>
-
-                <tr th:each="proy : ${proyectos}">
-
-                    <!-- Nombre clickeable que lleva al detalle -->
-                    <td class="nombre-destacado">
-                        <a th:href="@{/proyectos/{id}(id=${proy.id})}"
-                           style="text-decoration: none; color: inherit;">
-                            <span th:text="${proy.nombre}"></span>
-                        </a>
-                    </td>
-
-                    <td class="texto-empresa">
-                        <i class="fa-solid fa-building"></i>
-                        <span th:text="${proy.empresa}"></span>
-                    </td>
-
-                    <td>
-                        <span th:text="${proy.estado}"
-                              th:classappend="${proy.estado == 'Completado'} ? 'badge-verde' :
-                                             (${proy.estado == 'Planificado'} ? 'badge-gris' : 'badge-azul')"
-                              class="badge">
-                        </span>
-                    </td>
-
-                    <td th:text="${proy.departamentos}"></td>
-
-                    <td class="vulns-info">
-                        <span th:text="${proy.vulnerabilidades}"></span>
-                        <span class="criticas-text" th:if="${proy.criticas > 0}">
-                            <i class="fa-solid fa-circle-exclamation"></i>
-                            <span th:text="${proy.criticas} + ' críticas'"></span>
-                        </span>
-                    </td>
-
-                    <!-- Botón eliminar en columna Acciones (corrección del docente) -->
-                    <td>
-                        <form th:action="@{/proyectos/eliminar/{id}(id=${proy.id})}" method="post">
-                            <button type="submit" class="btn-eliminar"
-                                    onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </form>
-                    </td>
-
-                </tr>
-            </tbody>
-        </table>
-
-        <p class="contador-proyectos"
-           th:if="${not #lists.isEmpty(proyectos)}"
-           th:text="'Mostrando ' + ${#lists.size(proyectos)} + ' de ' + ${#lists.size(proyectos)} + ' proyectos'">
-        </p>
-
-    </main>
-
-    <script>
-        function filtrarTabla() {
-            const texto = document.getElementById('buscador').value.toLowerCase();
-            const filas = document.querySelectorAll('tbody tr');
-            filas.forEach(fila => {
-                const contenido = fila.textContent.toLowerCase();
-                fila.style.display = contenido.includes(texto) ? '' : 'none';
-            });
-        }
-    </script>
-
-=======
-    <h1 class="titulo-principal">Gestión de Proyectos</h1>
-    <div class="contenedor-notificaciones">
-        <i class="fa-solid fa-bell"></i>
-        <span class="punto-alerta"></span>
-    </div>
-</header>
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
-
-        <section class="cabecera-gestion">
-            <div class="texto-cabecera">
-                <h2 class="titulo-interno">Gestión de Proyectos</h2>
-                <p class="subtitulo">Administra tus proyectos de auditoría y pentesting</p>
+                    placeholder="Buscar proyectos por nombre o empresa..."
+                    onkeyup="filtrarTabla()">
             </div>
 
-            <button class="btn-crear" type="button">
-                <a th:href="@{/proyectos/nuproyectos}">Crear Proyecto</a>
-            </button>
-        </section>
-
-        <section class="tarjeta-blanca contenedor-busqueda">
-            <div class="campo-busqueda">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Buscar proyectos por nombre o empresa...">
-            </div>
         </section>
 
         <section class="tabla-contenedor tarjeta-blanca">
@@ -264,67 +96,63 @@
                         <th>Proyecto</th>
                         <th>Empresa</th>
                         <th>Estado</th>
-                        <th>Departamentos</th>
-                        <th>Vulnerabilidades</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="cuerpo-tabla"></tbody>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(auditorias)}">
+                        <td colspan="6" style="text-align: center;">No hay proyectos registrados</td>
+                    </tr>
+
+                    <tr th:each="aud : ${auditorias}">
+                        <td class="nombre-destacado">
+                            <a th:href="@{/proyectos/{id}(id=${aud.idAuditoria})}" style="text-decoration:none;color:inherit;">
+                                <span th:text="${aud.nombre}"></span>
+                            </a>
+                        </td>
+                        <td class="texto-empresa">
+                            <i class="fa-solid fa-building"></i>
+                            <span th:text="${aud.empresa.nombre}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${aud.estado}"
+                                th:classappend="${aud.estado == 'Completado'} ? 'badge-verde' : (${aud.estado == 'Planificado'} ? 'badge-gris' : 'badge-azul')"
+                                class="badge"></span>
+                        </td>
+                        <td th:text="${aud.fechaInico}"></td>
+                        <td th:text="${aud.fechaFin}"></td>
+                        <td>
+                            <a th:href="@{/proyectos/{id}(id=${aud.idAuditoria})}" class="btn-verdetalle">Ver</a>
+                            <form th:action="@{/proyectos/{id}/eliminar(id=${aud.idAuditoria})}" method="post" style="display:inline">
+                                <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar proyecto?')">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
+
+            <p class="contador-proyectos" th:if="${not #lists.isEmpty(auditorias)}"
+                th:text="'Mostrando ' + ${#lists.size(auditorias)} + ' proyectos'">
+            </p>
         </section>
+
     </main>
 
-    <script>
-        function cargarProyectos() {
-            const cuerpoTabla = document.getElementById('cuerpo-tabla');
-            const proyectos = JSON.parse(localStorage.getItem('proyectosHexora')) || [];
-
-            cuerpoTabla.innerHTML = '';
-
-            proyectos.forEach((proy, index) => {
-                const fila = document.createElement('tr');
-                let claseEstado = 'badge-azul';
-
-                if (proy.estado === 'Completado') {
-                    claseEstado = 'badge-verde';
-                } else if (proy.estado === 'Planificado') {
-                    claseEstado = 'badge-gris';
-                }
-
-                fila.innerHTML = `
-                    <td class="nombre-destacado">${proy.nombre}</td>
-                    <td class="texto-empresa"><i class="fa-solid fa-building"></i> ${proy.empresa}</td>
-                    <td><span class="badge ${claseEstado}">${proy.estado}</span></td>
-                    <td>${proy.departamentos}</td>
-                    <td class="vulns-info">
-                        ${proy.vulnerabilidades}
-                        <span class="criticas-text"><i class="fa-solid fa-circle-exclamation"></i> ${proy.criticas} críticas</span>
-                    </td>
-                    <td>
-                        <button class="btn-eliminar" onclick="eliminarProyecto(${index})" type="button">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                `;
-
-                cuerpoTabla.appendChild(fila);
+    <!--<script>
+        function filtrarTabla() {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const filas = document.querySelectorAll('table.tabla-hexora tbody tr');
+            filas.forEach(fila => {
+                // skip the 'no hay proyectos' row
+                if (fila.querySelector('td[colspan]')) return;
+                const contenido = fila.textContent.toLowerCase();
+                fila.style.display = contenido.includes(texto) ? '' : 'none';
             });
         }
-
-<<<<<<< HEAD
-        function eliminarProyecto(index) {
-            const proyectos = JSON.parse(localStorage.getItem('proyectosHexora')) || [];
-            proyectos.splice(index, 1);
-            localStorage.setItem('proyectosHexora', JSON.stringify(proyectos));
-            cargarProyectos();
-        }
-
-        document.addEventListener('DOMContentLoaded', cargarProyectos);
-    </script>
-=======
-</main>
-    
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b
+    </script>-->
 </body>
 </html>

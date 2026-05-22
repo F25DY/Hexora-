@@ -1,10 +1,15 @@
 package com.hexora.hexora.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hexora.hexora.model.Auditoria;
+import com.hexora.hexora.model.Empresa;
 import com.hexora.hexora.repository.AuditoriaRepository;
 import com.hexora.hexora.repository.EmpresaRepository;
 
@@ -46,21 +51,93 @@ public class ProyectosController {
         @RequestParam(required = false) String sector,
 
         @RequestParam String nombre,
-        @RequestParam(required = false) String descripcion,
         @RequestParam String tipoAuditoria,
         @RequestParam String fechaInicio,
         @RequestParam (required=false)String fechaFin,
         @RequestParam String estado
     ) {
-        //TODO: process POST request
+        Empresa empresa = new Empresa();
+        empresa.setNombre(nombreEmpresa);
+        empresa.setNit(nit);
+        empresa.setSector(sector);
+        empresaRepository.save(empresa);
         
-        return entity;
+        Auditoria auditoria = new Auditoria();
+        auditoria.setNombre(nombre);
+        auditoria.setTipoAuditoria(tipoAuditoria);
+        auditoria.setFechaInico(LocalDate.parse(fechaInicio));
+
+        if (fechaFin != null && !fechaFin.isEmpty()) {
+            auditoria.setFechaFin(LocalDate.parse(fechaFin));
+        }
+
+        auditoria.setEstado(estado);
+        auditoria.setEmpresa(empresa);
+        auditoriaRepository.save(auditoria);
+        
+        return "redirect:/proyectos";
     }
     
     @GetMapping("/proyectos/{id}")
-    public String detalleProyecto() {
+    public String detalleProyecto(@PathVariable Long id, Model model) {
+        Auditoria auditoria = auditoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Auditoría no encontrada"));
+        model.addAttribute("auditoria", auditoria);
         return "detalle-proyecto";
     }
     
+    @GetMapping("/{id}/editar")
+    public String proyectoEditar(@PathVariable Long id, Model model) {
+
+        Auditoria auditoria = auditoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Auditoría no encontrada"));
+
+        model.addAttribute("auditoria", auditoria);
+
+        return "editar-auditoria";
+    }
+
+    @PostMapping("/{id}/actualizar")
+    public String proyectoActualizar(
+        @PathVariable Long id, 
+        @RequestParam String nombreEmpresa,
+        @RequestParam(required=false) String nit,
+        @RequestParam(required = false) String sector,
+
+        @RequestParam String nombre,
+        @RequestParam String tipoAuditoria,
+        @RequestParam String fechaInicio,
+        @RequestParam (required=false)String fechaFin,
+        @RequestParam String estado
+    ) {
+        Auditoria auditoria = auditoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
+
+        Empresa empresa = auditoria.getEmpresa();
+
+        empresa.setNombre(nombreEmpresa);
+        empresa.setNit(nit);
+        empresa.setSector(sector);
+        empresaRepository.save(empresa);
+
+        auditoria.setNombre(nombre);
+        auditoria.setTipoAuditoria(tipoAuditoria);
+        auditoria.setFechaInico(LocalDate.parse(fechaInicio));
+
+        if (fechaFin != null && !fechaFin.isEmpty()) {
+            auditoria.setFechaFin(LocalDate.parse(fechaFin));
+        } else{
+            auditoria.setFechaFin(null);
+        }
+
+        auditoria.setEstado(estado);
+
+        auditoriaRepository.save(auditoria);
+
+        return "redirect:/proyectos/" + id;
+    }
+
+    @PostMapping("/{id}/eliminar")
+    public String eliminarProyecto(@PathVariable Long id) {
+        auditoriaRepository.deleteById(id);
+        return "redirect:/proyectos";
+    }
     
 }

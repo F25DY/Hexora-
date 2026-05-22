@@ -2,6 +2,7 @@ package com.hexora.hexora.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -13,5 +14,11 @@ public class AuthController {
         return "index";
     }
 
-    
+    @PostMapping("/login")
+    public String login(@RequestParam String email, @RequestParam String password) {
+        // No hay login real, se redirige directamente al dashboard.
+        return "redirect:/dashboard";
+    }
+
 }
+

@@ -1,179 +1,10 @@
-<<<<<<< HEAD:hexora/target/classes/templates/dashboard.html
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hexora</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-
-    <aside class="sidebar">
-        <div class="logo-plataforma">
-            <div class="textos-marca">
-                <img src="/static/imagen/logo.png" width="40" alt="Logo">
-                <span class="nombre-completo">Hexora</span>
-            </div>
-        </div>
-
-        <nav class="menu">   
-            <ul>
-                <li>
-                    <a href="dashboard" class="enlace-menu activo">
-                        <i class="fa-solid fa-house"></i> Dashboard 
-                    </a>
-                </li>
-                <li>
-                    <a href="proyectos.html" class="enlace-menu">
-                        <i class="fa-solid fa-folder-closed"></i> Proyectos
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="contenedor-usuario">
-            <div class="info-perfil">
-                <div class="avatar-usuario">
-                    <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <div class="datos-texto">
-                    <span class="nombre-usuario">Analista</span>
-                    <span class="correo-usuario">analista@gmail.com</span>
-                </div>
-            </div>
-            <a href="index.html" class="boton-cerrar-sesion">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-            </a>
-        </div>
-    </aside>
-
-    <main class="contenido-principal">
-        
-        <header class="encabezado-principal">
-            <h1 class="titulo-pagina">Dashboard</h1>
-            <div class="acciones-encabezado">
-                <div class="contenedor-notificaciones">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="punto-alerta"></span>
-                </div>
-            </div>
-        </header>
-
-        <section class="seccion-metricas">
-            <article class="tarjeta-blanca">
-                <div class="icono-circulo azul"><i class="fa-solid fa-folder-tree"></i></div>
-                <h2 class="numero-grande">12</h2>
-                <p class="texto-gris">Total Proyectos</p>
-            </article>
-
-            <article class="tarjeta-blanca">
-                <div class="icono-circulo naranja"><i class="fas fa-exclamation-triangle"></i></div>
-                <h2 class="numero-grande">47</h2>
-                <p class="texto-gris">Vulnerabilidades Activas</p>
-            </article>
-
-            <article class="tarjeta-blanca">
-                <div class="icono-circulo rojo"><i class="fa-solid fa-bolt"></i></div>
-                <h2 class="numero-grande">8</h2>
-                <p class="texto-gris">Críticas</p>
-            </article>
-
-            <article class="tarjeta-blanca">
-                <div class="icono-circulo verde"><i class="fa-solid fa-check-double"></i></div>
-                <h2 class="numero-grande">23</h2>
-                <p class="texto-gris">Mitigadas este mes</p>
-            </article>
-        </section>
-
-        <div class="grid-intermedio">
-            
-            <section class="tarjeta-blanca container-riesgos">
-                <h3>Distribución de Riesgos</h3>
-                <div class="risk-item">
-                    <div class="risk-info"><span>Crítico</span> <span class="badge bg-rojo">8</span></div>
-                    <div class="progress-bar"><div class="progress bg-rojo" style="width: 25%;"></div></div>
-                </div>
-                <div class="risk-item">
-                    <div class="risk-info"><span>Alto</span> <span class="badge bg-naranja">15</span></div>
-                    <div class="progress-bar"><div class="progress bg-naranja" style="width: 45%;"></div></div>
-                </div>
-                <div class="risk-item">
-                    <div class="risk-info"><span>Medio</span> <span class="badge bg-amarillo">18</span></div>
-                    <div class="progress-bar"><div class="progress bg-amarillo" style="width: 60%;"></div></div>
-                </div>
-                <div class="risk-item">
-                    <div class="risk-info"><span>Bajo</span> <span class="badge bg-verde">6</span></div>
-                    <div class="progress-bar"><div class="progress bg-verde" style="width: 15%;"></div></div>
-                </div>
-            </section>
-
-            <section class="tarjeta-blanca container-actividad">
-                <h3>Actividad Reciente</h3>
-                <ul class="lista-actividad">
-                    <li>
-                        <i class="fa-solid fa-circle dot-rojo"></i>
-                        <div class="actividad-texto">
-                            <strong>Auditoría Sistema Bancario</strong>
-                            <p>Nueva vulnerabilidad crítica detectada</p>
-                            <small>Hace 2 horas</small>
-                        </div>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-circle dot-verde"></i>
-                        <div class="actividad-texto">
-                            <strong>Pentesting E-Commerce</strong>
-                            <p>Vulnerabilidad SQL Injection mitigada</p>
-                            <small>Hace 5 horas</small>
-                        </div>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-circle dot-azul"></i>
-                        <div class="actividad-texto">
-                            <strong>Análisis Infraestructura Cloud</strong>
-                            <p>Proyecto actualizado</p>
-                            <small>Hace 1 día</small>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-        </div>
-
-        <section class="tarjeta-blanca seccion-acciones">
-            <h3>Acciones Rápidas</h3>
-            <div class="contenedor-botones">
-                <button class="btn btn-primario">
-                    <a th:href="@{/proyectos/nuproyectos}">Crear Nuevo Proyecto</a>
-                </button>
-                <button class="btn btn-secundario">
-                    <a th:href="@{/proyectos}">Ver Todos los Proyectos</a>
-                </button>
-            </div>
-        </section>
-
-    </main>
-
-</body>
-=======
-<!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hexora - Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-=======
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hexora</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-  
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -181,36 +12,20 @@
     <aside class="sidebar">
         <div class="logo-plataforma">
             <div class="textos-marca">
-<<<<<<< HEAD
                 <img th:src="@{/imagen/logo.png}" width="40" alt="Logo">
-=======
-                <img src="/static/imagen/logo.png" width="40" alt="Logo">
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <span class="nombre-completo">Hexora</span>
             </div>
         </div>
 
-<<<<<<< HEAD
         <nav class="menu">
             <ul>
                 <li>
-                    <a th:href="@{/inicio}" class="enlace-menu activo">
+                    <a th:href="@{/dashboard}" class="enlace-menu activo">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                 </li>
                 <li>
                     <a th:href="@{/proyectos}" class="enlace-menu">
-=======
-        <nav class="menu">   
-            <ul>
-                <li>
-                    <a href="inicio.html" class="enlace-menu activo">
-                        <i class="fa-solid fa-house"></i> Dashboard 
-                    </a>
-                </li>
-                <li>
-                    <a href="proyectos.html" class="enlace-menu">
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
@@ -220,39 +35,20 @@
         <div class="contenedor-usuario">
             <div class="info-perfil">
                 <div class="avatar-usuario">
-<<<<<<< HEAD
                     <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <div class="datos-texto">
-                    <!-- Datos del usuario autenticado desde el controlador -->
-                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
-                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
-                </div>
-            </div>
-            <a th:href="@{/logout}" class="boton-cerrar-sesion">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-            </a>
-=======
-                    <i class="fa-solid fa-user-shield"></i> 
                 </div>
                 <div class="datos-texto">
                     <span class="nombre-usuario">Analista</span>
                     <span class="correo-usuario">analista@gmail.com</span>
                 </div>
             </div>
-           <a href="index.html" class="boton-cerrar-sesion">
-    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-</a>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+            <a th:href="@{/}" class="boton-cerrar-sesion">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesi�n
+            </a>
         </div>
     </aside>
 
     <main class="contenido-principal">
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
         <header class="encabezado-principal">
             <h1 class="titulo-pagina">Dashboard</h1>
             <div class="acciones-encabezado">
@@ -263,116 +59,34 @@
             </div>
         </header>
 
-<<<<<<< HEAD
-        <!-- Métricas dinámicas desde el controlador -->
-        <section class="seccion-metricas">
-            <article class="tarjeta-blanca">
-                <div class="icono-circulo azul"><i class="fa-solid fa-folder-tree"></i></div>
-                <h2 class="numero-grande" th:text="${metricas.totalProyectos}">12</h2>
-=======
         <section class="seccion-metricas">
             <article class="tarjeta-blanca">
                 <div class="icono-circulo azul"><i class="fa-solid fa-folder-tree"></i></div>
                 <h2 class="numero-grande">12</h2>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <p class="texto-gris">Total Proyectos</p>
             </article>
-
             <article class="tarjeta-blanca">
-                <div class="icono-circulo naranja"><i class="fas fa-exclamation-triangle"></i></div>
-<<<<<<< HEAD
-                <h2 class="numero-grande" th:text="${metricas.vulnerabilidadesActivas}">47</h2>
-=======
+                <div class="icono-circulo naranja"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 <h2 class="numero-grande">47</h2>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <p class="texto-gris">Vulnerabilidades Activas</p>
             </article>
-
             <article class="tarjeta-blanca">
                 <div class="icono-circulo rojo"><i class="fa-solid fa-bolt"></i></div>
-<<<<<<< HEAD
-                <h2 class="numero-grande" th:text="${metricas.criticas}">8</h2>
-=======
                 <h2 class="numero-grande">8</h2>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
-                <p class="texto-gris">Críticas</p>
+                <p class="texto-gris">Cr�ticas</p>
             </article>
-
             <article class="tarjeta-blanca">
                 <div class="icono-circulo verde"><i class="fa-solid fa-check-double"></i></div>
-<<<<<<< HEAD
-                <h2 class="numero-grande" th:text="${metricas.mitigadasMes}">23</h2>
-=======
                 <h2 class="numero-grande">23</h2>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
                 <p class="texto-gris">Mitigadas este mes</p>
             </article>
         </section>
 
         <div class="grid-intermedio">
-<<<<<<< HEAD
-
-            <!-- Distribución de riesgos dinámica -->
             <section class="tarjeta-blanca container-riesgos">
-                <h3>Distribución de Riesgos</h3>
-
+                <h3>Distribuci�n de Riesgos</h3>
                 <div class="risk-item">
-                    <div class="risk-info">
-                        <span>Crítico</span>
-                        <span class="badge bg-rojo" th:text="${riesgos.critico}">8</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress bg-rojo" th:style="'width: ' + ${riesgos.porcentajeCritico} + '%;'"></div>
-                    </div>
-                </div>
-
-                <div class="risk-item">
-                    <div class="risk-info">
-                        <span>Alto</span>
-                        <span class="badge bg-naranja" th:text="${riesgos.alto}">15</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress bg-naranja" th:style="'width: ' + ${riesgos.porcentajeAlto} + '%;'"></div>
-                    </div>
-                </div>
-
-                <div class="risk-item">
-                    <div class="risk-info">
-                        <span>Medio</span>
-                        <span class="badge bg-amarillo" th:text="${riesgos.medio}">18</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress bg-amarillo" th:style="'width: ' + ${riesgos.porcentajeMedio} + '%;'"></div>
-                    </div>
-                </div>
-
-                <div class="risk-item">
-                    <div class="risk-info">
-                        <span>Bajo</span>
-                        <span class="badge bg-verde" th:text="${riesgos.bajo}">6</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress bg-verde" th:style="'width: ' + ${riesgos.porcentajeBajo} + '%;'"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Actividad reciente dinámica con th:each -->
-            <section class="tarjeta-blanca container-actividad">
-                <h3>Actividad Reciente</h3>
-                <ul class="lista-actividad">
-                    <li th:each="actividad : ${actividadReciente}">
-                        <i class="fa-solid fa-circle" th:classappend="${actividad.colorDot}"></i>
-                        <div class="actividad-texto">
-                            <strong th:text="${actividad.proyecto}">Proyecto</strong>
-                            <p th:text="${actividad.descripcion}">Descripción</p>
-                            <small th:text="${actividad.tiempo}">Hace X horas</small>
-=======
-            
-            <section class="tarjeta-blanca container-riesgos">
-                <h3>Distribución de Riesgos</h3>
-                <div class="risk-item">
-                    <div class="risk-info"><span>Crítico</span> <span class="badge bg-rojo">8</span></div>
+                    <div class="risk-info"><span>Cr�tico</span> <span class="badge bg-rojo">8</span></div>
                     <div class="progress-bar"><div class="progress bg-rojo" style="width: 25%;"></div></div>
                 </div>
                 <div class="risk-item">
@@ -388,15 +102,14 @@
                     <div class="progress-bar"><div class="progress bg-verde" style="width: 15%;"></div></div>
                 </div>
             </section>
-
             <section class="tarjeta-blanca container-actividad">
                 <h3>Actividad Reciente</h3>
                 <ul class="lista-actividad">
                     <li>
                         <i class="fa-solid fa-circle dot-rojo"></i>
                         <div class="actividad-texto">
-                            <strong>Auditoría Sistema Bancario</strong>
-                            <p>Nueva vulnerabilidad crítica detectada</p>
+                            <strong>Auditor�a Sistema Bancario</strong>
+                            <p>Nueva vulnerabilidad cr�tica detectada</p>
                             <small>Hace 2 horas</small>
                         </div>
                     </li>
@@ -411,10 +124,9 @@
                     <li>
                         <i class="fa-solid fa-circle dot-azul"></i>
                         <div class="actividad-texto">
-                            <strong>Análisis Infraestructura Cloud</strong>
+                            <strong>An�lisis Infraestructura Cloud</strong>
                             <p>Proyecto actualizado</p>
-                            <small>Hace 1 día</small>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+                            <small>Hace 1 d�a</small>
                         </div>
                     </li>
                 </ul>
@@ -422,24 +134,13 @@
         </div>
 
         <section class="tarjeta-blanca seccion-acciones">
-            <h3>Acciones Rápidas</h3>
+            <h3>Acciones R�pidas</h3>
             <div class="contenedor-botones">
-<<<<<<< HEAD
-                <a th:href="@{/proyectos/nuevo}">
-                    <button class="btn btn-primario">Crear Nuevo Proyecto</button>
-                </a>
-                <a th:href="@{/proyectos}">
-                    <button class="btn btn-secundario">Ver Todos los Proyectos</button>
-                </a>
-=======
-                <button class="btn btn-primario">Crear Nuevo Proyecto</button>
-                <button class="btn btn-secundario">Ver Todos los Proyectos</button>
->>>>>>> 4b5b177fe0e7e61f66c9d1c4ce5e61ceaa111e1a
+                <a th:href="@{/proyectos/nuproyectos}"><button class="btn btn-primario">Crear Nuevo Proyecto</button></a>
+                <a th:href="@{/proyectos}"><button class="btn btn-secundario">Ver Todos los Proyectos</button></a>
             </div>
         </section>
-
     </main>
 
 </body>
->>>>>>> 9e390eebda140c2bb42897d5eb91193de66f2b1b:hexora/target/classes/templates/inicio.html
 </html>
