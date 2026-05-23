@@ -30,7 +30,7 @@ public class Auditoria {
     @Column(nullable = false)
     private LocalDate fechaInico;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate fechaFin;
 
     @Column(nullable = false, length = 30)
@@ -65,6 +65,10 @@ public class Auditoria {
         return idAuditoria;
     }
 
+    public Long getId() {
+        return idAuditoria;
+    }
+
     public void setIdAuditoria(Long idAuditoria) {
         this.idAuditoria = idAuditoria;
     }
@@ -86,6 +90,10 @@ public class Auditoria {
     }
 
     public LocalDate getFechaInico() {
+        return fechaInico;
+    }
+
+    public LocalDate getFechaInicio() {
         return fechaInico;
     }
 
