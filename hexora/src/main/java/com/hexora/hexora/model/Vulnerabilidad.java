@@ -28,13 +28,13 @@ public class Vulnerabilidad {
     @Column(length = 100)
     private String herramienta;
 
-    @Column(name="hostAfectado", length = 150)
+    @Column(name = "host_afectado", length = 150)
     private String host;
 
-    @Column(length = 45)
+    @Column(name = "ip_afectada", length = 45)
     private String ipAfectada;
 
-    @Column(name="puertoAfectado")
+    @Column(name = "puerto_afectado")
     private Integer puerto;
 
     @Column(length = 100)
@@ -58,16 +58,16 @@ public class Vulnerabilidad {
     @Column(nullable = false, precision = 4, scale = 2)
     private BigDecimal impacto;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "nivel_riesgo", nullable = false, length = 20)
     private String nivelRiesgo;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "plan_mitigacion", columnDefinition = "TEXT")
     private String planMitigacion;
 
     @Column(nullable = false, length = 30)
     private String estado;
 
-    @Column(name = "fechaDescubrimiento", nullable = false)
+    @Column(name = "fecha_descubrimiento", nullable = false)
     private LocalDate fechaDeteccion;
 
     @ManyToOne
@@ -130,6 +130,14 @@ public class Vulnerabilidad {
         this.tipo = tipo;
     }
 
+    public String getHerramienta() {
+        return herramienta;
+    }
+
+    public void setHerramienta(String herramienta) {
+        this.herramienta = herramienta;
+    }
+
     public String getHost() {
         return host;
     }
@@ -138,11 +146,19 @@ public class Vulnerabilidad {
         this.host = host;
     }
 
-    public int getPuerto() {
+    public String getIpAfectada() {
+        return ipAfectada;
+    }
+
+    public void setIpAfectada(String ipAfectada) {
+        this.ipAfectada = ipAfectada;
+    }
+
+    public Integer getPuerto() {
         return puerto;
     }
 
-    public void setPuerto(int puerto) {
+    public void setPuerto(Integer puerto) {
         this.puerto = puerto;
     }
 
@@ -203,6 +219,10 @@ public class Vulnerabilidad {
     }
 
     public String getNivelRiesgo() {
+        return nivelRiesgo;
+    }
+
+    public String getRiesgo() {
         return nivelRiesgo;
     }
 

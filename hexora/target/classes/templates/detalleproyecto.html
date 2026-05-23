@@ -36,8 +36,8 @@
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <div class="datos-texto">
-                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
-                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
+                    <span class="nombre-usuario">Analista</span>
+                    <span class="correo-usuario">analista@gmail.com</span>
                 </div>
             </div>
             <a th:href="@{/logout}" class="boton-cerrar-sesion">
@@ -59,7 +59,7 @@
             </div>
             <!-- Botón que va a agregar departamento pasando el ID del proyecto -->
             <a th:href="@{/proyectos/{id}/departamentos/nuevo(id=${proyecto.id})}" 
-               style="text-decoration:none;">
+                style="text-decoration:none;">
                 <button class="btn-crear">
                     <i class="fa-solid fa-plus"></i> Agregar Departamento
                 </button>
@@ -72,9 +72,8 @@
                 <div>
                     <p class="texto-gris">Estado</p>
                     <span th:text="${proyecto.estado}"
-                          th:classappend="${proyecto.estado == 'Completado'} ? 'badge-verde' :
-                                         (${proyecto.estado == 'Planificado'} ? 'badge-gris' : 'badge-azul')"
-                          class="badge"></span>
+                        th:classappend="${proyecto.estado == 'Completado'} ? 'badge-verde' :(${proyecto.estado == 'Planificado'} ? 'badge-gris' : 'badge-azul')"
+                        class="badge"></span>
                 </div>
                 <div>
                     <p class="texto-gris">Fecha de Inicio</p>
@@ -82,11 +81,11 @@
                 </div>
                 <div>
                     <p class="texto-gris">Departamentos</p>
-                    <p th:text="${proyecto.departamentos}">0</p>
+                    <p th:text="${#lists.size(proyecto.departamentos)}">0</p>
                 </div>
                 <div>
                     <p class="texto-gris">Total Vulnerabilidades</p>
-                    <p th:text="${proyecto.vulnerabilidades}">0</p>
+                    <p th:text="${proyecto.metricas['critico'] + proyecto.metricas['alto'] + proyecto.metricas['medio'] + proyecto.metricas['bajo']}">0</p>
                 </div>
             </div>
             <div class="descripcion-proyecto">
@@ -99,22 +98,22 @@
         <section class="seccion-metricas">
             <article class="tarjeta-blanca">
                 <div class="icono-circulo rojo"><i class="fa-solid fa-bolt"></i></div>
-                <h2 class="numero-grande" th:text="${metricas.critico}">0</h2>
+                <h2 class="numero-grande" th:text="${proyecto.metricas['critico']}">0</h2>
                 <p class="texto-gris">Crítico</p>
             </article>
             <article class="tarjeta-blanca">
                 <div class="icono-circulo naranja"><i class="fas fa-exclamation-triangle"></i></div>
-                <h2 class="numero-grande" th:text="${metricas.alto}">0</h2>
+                <h2 class="numero-grande" th:text="${proyecto.metricas['alto']}">0</h2>
                 <p class="texto-gris">Alto</p>
             </article>
             <article class="tarjeta-blanca">
                 <div class="icono-circulo amarillo"><i class="fa-solid fa-minus"></i></div>
-                <h2 class="numero-grande" th:text="${metricas.medio}">0</h2>
+                <h2 class="numero-grande" th:text="${proyecto.metricas['medio']}">0</h2>
                 <p class="texto-gris">Medio</p>
             </article>
             <article class="tarjeta-blanca">
                 <div class="icono-circulo verde"><i class="fa-solid fa-check"></i></div>
-                <h2 class="numero-grande" th:text="${metricas.bajo}">0</h2>
+                <h2 class="numero-grande" th:text="${proyecto.metricas['bajo']}">0</h2>
                 <p class="texto-gris">Bajo</p>
             </article>
         </section>
@@ -133,13 +132,13 @@
         <section class="grid-departamentos" id="lista-departamentos">
 
             <!-- Mensaje si no hay departamentos -->
-            <div th:if="${#lists.isEmpty(departamentos)}" class="tarjeta-blanca">
+            <div th:if="${#lists.isEmpty(proyecto.departamentos)}" class="tarjeta-blanca">
                 <p style="text-align:center;">No hay departamentos registrados para este proyecto.</p>
             </div>
 
             <!-- Tarjeta por cada departamento -->
             <article class="tarjeta-blanca tarjeta-departamento" 
-                     th:each="dep : ${departamentos}">
+                     th:each="dep : ${proyecto.departamentos}">
                 <h3 th:text="${dep.nombre}"></h3>
                 <p class="texto-gris" th:text="${dep.descripcion}"></p>
 
@@ -155,7 +154,7 @@
                 </div>
 
                 <a th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${dep.id})}"
-                   style="text-decoration:none;">
+                    style="text-decoration:none;">
                     <button class="btn btn-primario" style="width:100%; margin-top:1rem;">
                         <i class="fa-solid fa-folder-open"></i> Ver Vulnerabilidades
                     </button>

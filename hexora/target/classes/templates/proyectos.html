@@ -42,19 +42,13 @@
                 </div>
 
                 <div class="datos-texto">
-                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
-                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
+                    <span class="nombre-usuario">Analista</span>
+                    <span class="correo-usuario">analista@gmail.com</span>
                 </div>
 
             </div>
 
-            <div>
-                <a th:href="@{/logout}" class="boton-cerrar-sesion">
-                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-                </a>
-            </div>
-
-            <a href="index.html" class="boton-cerrar-sesion">
+            <a th:href="@{/}" class="boton-cerrar-sesion">
                 <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
             </a>
 
@@ -90,6 +84,7 @@
         </section>
 
         <section class="tabla-contenedor tarjeta-blanca">
+            <p class="contador-proyectos" th:text="'Proyectos cargados: ' + ${#lists.size(auditorias)}"></p>
             <table class="tabla-hexora">
                 <thead>
                     <tr>
@@ -111,6 +106,8 @@
                             <a th:href="@{/proyectos/{id}(id=${aud.idAuditoria})}" style="text-decoration:none;color:inherit;">
                                 <span th:text="${aud.nombre}"></span>
                             </a>
+                            <br>
+                            <small style="color:#666; font-size:0.8rem;" th:text="@{/proyectos/{id}(id=${aud.idAuditoria})}"></small>
                         </td>
                         <td class="texto-empresa">
                             <i class="fa-solid fa-building"></i>

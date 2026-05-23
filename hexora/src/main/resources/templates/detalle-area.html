@@ -36,8 +36,8 @@
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <div class="datos-texto">
-                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
-                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
+                    <span class="nombre-usuario">Analista</span>
+                    <span class="correo-usuario">analista@gmail.com</span>
                 </div>
             </div>
             <a th:href="@{/logout}" class="boton-cerrar-sesion">
@@ -58,7 +58,7 @@
                 <p class="subtitulo" th:text="${proyecto.nombre}">Nombre Proyecto</p>
             </div>
             <a th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/nueva(pid=${proyecto.id}, did=${departamento.id})}"
-               style="text-decoration: none;">
+                style="text-decoration: none;">
                 <button class="btn-crear">
                     <i class="fa-solid fa-plus"></i> Agregar Vulnerabilidad
                 </button>
@@ -139,7 +139,7 @@
                     <!-- Badge de riesgo con color según nivel -->
                     <td>
                         <span th:text="${vuln.riesgo}"
-                              th:classappend="${vuln.riesgo == 'Crítico'} ? 'badge-rojo' :
+                              th:classappend="${vuln.riesgo == 'Critico'} ? 'badge-rojo' :
                                              (${vuln.riesgo == 'Alto'} ? 'badge-naranja' :
                                              (${vuln.riesgo == 'Medio'} ? 'badge-amarillo' : 'badge-verde'))"
                               class="badge">

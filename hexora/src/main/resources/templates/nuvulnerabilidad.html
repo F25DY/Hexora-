@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hexora - Nueva Vulnerabilidad</title>
+    <title>Hexora - Vulnerabilidad</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -36,12 +36,12 @@
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <div class="datos-texto">
-                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
-                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
+                    <span class="nombre-usuario">Analista</span>
+                    <span class="correo-usuario">analista@gmail.com</span>
                 </div>
             </div>
             <a th:href="@{/logout}" class="boton-cerrar-sesion">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesion
             </a>
         </div>
     </aside>
@@ -49,143 +49,132 @@
     <main class="contenido-principal">
 
         <header class="encabezado-retorno">
-            <a th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${departamento.id})}"
-               class="link-volver">
+            <a th:href="${returnUrl}"
+                class="link-volver">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <div class="titulos-nuevo">
-                <!-- Cambia el título si es edición o creación -->
                 <h1 class="titulo-pagina"
                     th:text="${vulnerabilidadForm.id != null} ? 'Editar Vulnerabilidad' : 'Agregar Vulnerabilidad'">
                     Agregar Vulnerabilidad
                 </h1>
-                <p class="subtitulo"
-                   th:text="${vulnerabilidadForm.id != null} ? 'Actualiza la información de la vulnerabilidad' : 'Registra una nueva vulnerabilidad en ' + ${departamento.nombre}">
-                </p>
+                <p class="subtitulo" th:text="'Departamento: ' + ${departamento.nombre}">Departamento</p>
             </div>
         </header>
 
-        <form th:action="${vulnerabilidadForm.id != null} ?
-                         @{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}/actualizar(pid=${proyecto.id}, did=${departamento.id}, vid=${vulnerabilidadForm.id})} :
-                         @{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/guardar(pid=${proyecto.id}, did=${departamento.id})}"
-              th:object="${vulnerabilidadForm}"
-              method="post">
+        <form th:action="${formAction}"
+                th:object="${vulnerabilidadForm}"
+                method="post">
 
-            <!-- SECCIÓN 1: Información Básica -->
             <section class="tarjeta-blanca contenedor-formulario">
-                <h3 class="seccion-form-titulo">Información Básica</h3>
+                <h3 class="seccion-form-titulo">Informacion Basica</h3>
 
                 <div class="campo-grupo">
-                    <label>Nombre de la Vulnerabilidad <span class="requerido">*</span></label>
-                    <input type="text"
-                           th:field="*{nombre}"
-                           placeholder="Ej: SQL Injection en módulo de transacciones"
-                           required>
-                </div>
-
-                <div class="campo-grupo">
-                    <label>Descripción Detallada <span class="requerido">*</span></label>
-                    <textarea th:field="*{descripcion}"
-                              rows="5"
-                              placeholder="Describe la vulnerabilidad, cómo se descubrió, y su potencial impacto..."
-                              required></textarea>
+                    <label>Nombre <span class="requerido">*</span></label>
+                    <input type="text" th:field="*{nombre}" placeholder="Ej: SQL Injection" required>
                 </div>
 
                 <div class="grid-form">
                     <div class="campo-grupo">
-                        <label>Tipo de Vulnerabilidad <span class="requerido">*</span></label>
-                        <select th:field="*{tipo}" required>
-                            <option value="">Seleccionar tipo</option>
-                            <option value="Inyección SQL">Inyección SQL</option>
-                            <option value="Cross-Site Scripting (XSS)">Cross-Site Scripting (XSS)</option>
-                            <option value="Cross-Site Request Forgery (CSRF)">Cross-Site Request Forgery (CSRF)</option>
-                            <option value="Filtración de Datos">Filtración de Datos</option>
-                            <option value="Autenticación Débil">Autenticación Débil</option>
-                            <option value="Configuración Incorrecta">Configuración Incorrecta</option>
-                            <option value="Lógica de Negocio">Lógica de Negocio</option>
-                            <option value="Control de Acceso">Control de Acceso</option>
-                            <option value="Exposición de Datos Sensibles">Exposición de Datos Sensibles</option>
-                            <option value="Componentes Vulnerables">Componentes Vulnerables</option>
-                        </select>
+                        <label>Tipo <span class="requerido">*</span></label>
+                        <input type="text" th:field="*{tipo}" placeholder="Ej: Inyeccion SQL" required>
                     </div>
 
                     <div class="campo-grupo">
-                        <label>Método de Descubrimiento <span class="requerido">*</span></label>
-                        <select th:field="*{metodoDescubrimiento}" required>
-                            <option value="">Seleccionar método</option>
-                            <option value="Escaneo Automatizado">Escaneo Automatizado</option>
-                            <option value="Prueba Manual">Prueba Manual</option>
-                            <option value="Revisión de Código">Revisión de Código</option>
-                            <option value="Pentesting">Pentesting</option>
-                            <option value="Análisis Estático">Análisis Estático</option>
-                            <option value="Fuzzing">Fuzzing</option>
-                            <option value="Ingeniería Social">Ingeniería Social</option>
+                        <label>Herramienta</label>
+                        <input type="text" th:field="*{herramienta}" placeholder="Ej: Burp Suite, Nmap, OWASP ZAP">
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Fecha de Deteccion <span class="requerido">*</span></label>
+                        <input type="date" th:field="*{fechaDeteccion}" required>
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Estado <span class="requerido">*</span></label>
+                        <select th:field="*{estado}" required>
+                            <option value="Abierta">Abierta</option>
+                            <option value="En Progreso">En Progreso</option>
+                            <option value="Mitigada">Mitigada</option>
+                            <option value="Aceptada">Aceptada</option>
                         </select>
                     </div>
                 </div>
             </section>
 
-            <!-- SECCIÓN 2: Evaluación de Riesgo -->
             <section class="tarjeta-blanca contenedor-formulario">
-                <h3 class="seccion-form-titulo">Evaluación de Riesgo</h3>
+                <h3 class="seccion-form-titulo">Activo Afectado</h3>
+
+                <div class="grid-form">
+                    <div class="campo-grupo">
+                        <label>Host afectado</label>
+                        <input type="text" th:field="*{host}" placeholder="Ej: app.hexora.local">
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>IP afectada</label>
+                        <input type="text" th:field="*{ipAfectada}" placeholder="Ej: 192.168.1.10">
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Puerto afectado</label>
+                        <input type="number" th:field="*{puerto}" min="1" max="65535" placeholder="Ej: 443">
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Servicio</label>
+                        <input type="text" th:field="*{servicio}" placeholder="Ej: HTTPS, SSH, MySQL">
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>CVE</label>
+                        <input type="text" th:field="*{cve}" placeholder="Ej: CVE-2026-0001">
+                    </div>
+                </div>
+            </section>
+
+            <section class="tarjeta-blanca contenedor-formulario">
+                <h3 class="seccion-form-titulo">Evaluacion de Riesgo</h3>
 
                 <div class="grid-form">
                     <div class="campo-grupo">
                         <label>Confidencialidad (0-10) <span class="requerido">*</span></label>
-                        <input type="number"
-                               th:field="*{confidencialidad}"
-                               min="0" max="10"
-                               oninput="calcularRiesgo()"
-                               required>
-                        <div class="barra-progreso-input">
-                            <div class="barra-progreso-relleno" id="barra-confidencialidad"></div>
-                        </div>
+                        <input type="number" th:field="*{confidencialidad}" min="0" max="10" oninput="calcularRiesgo()" required>
                     </div>
 
                     <div class="campo-grupo">
                         <label>Integridad (0-10) <span class="requerido">*</span></label>
-                        <input type="number"
-                               th:field="*{integridad}"
-                               min="0" max="10"
-                               oninput="calcularRiesgo()"
-                               required>
-                        <div class="barra-progreso-input">
-                            <div class="barra-progreso-relleno" id="barra-integridad"></div>
-                        </div>
+                        <input type="number" th:field="*{integridad}" min="0" max="10" oninput="calcularRiesgo()" required>
                     </div>
 
                     <div class="campo-grupo">
                         <label>Disponibilidad (0-10) <span class="requerido">*</span></label>
-                        <input type="number"
-                               th:field="*{disponibilidad}"
-                               min="0" max="10"
-                               oninput="calcularRiesgo()"
-                               required>
-                        <div class="barra-progreso-input">
-                            <div class="barra-progreso-relleno" id="barra-disponibilidad"></div>
-                        </div>
+                        <input type="number" th:field="*{disponibilidad}" min="0" max="10" oninput="calcularRiesgo()" required>
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Probabilidad (0-10) <span class="requerido">*</span></label>
+                        <input type="number" th:field="*{probabilidad}" min="0" max="10" oninput="calcularRiesgo()" required>
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Impacto <span class="requerido">*</span></label>
+                        <input type="number" th:field="*{impacto}" id="campo-impacto" step="0.01" min="0" max="10" readonly required>
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>Nivel de Riesgo</label>
+                        <input type="text" id="campo-nivel-riesgo-visible" th:value="*{nivelRiesgo}" readonly>
+                        <input type="hidden" th:field="*{nivelRiesgo}" id="campo-nivel-riesgo">
                     </div>
                 </div>
 
-                <div class="campo-grupo">
-                    <label>Probabilidad de Explotación (0-10) <span class="requerido">*</span></label>
-                    <input type="number"
-                           th:field="*{probabilidad}"
-                           min="0" max="10"
-                           oninput="calcularRiesgo()"
-                           required>
-                    <div class="barra-progreso-input">
-                        <div class="barra-progreso-relleno" id="barra-probabilidad"></div>
-                    </div>
-                </div>
-
-                <!-- Cálculo en tiempo real -->
                 <div class="tarjeta-calculo-riesgo">
                     <div class="calculo-header">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         <div>
-                            <strong>Cálculo de Riesgo en Tiempo Real</strong>
-                            <p>Los valores se actualizan automáticamente basados en tus entradas</p>
+                            <strong>Calculo de riesgo</strong>
+                            <p>El impacto y nivel se calculan con los valores ingresados</p>
                         </div>
                     </div>
                     <div class="grid-calculo">
@@ -194,64 +183,29 @@
                             <p class="numero-calculo" id="resultado-impacto">0/10</p>
                         </div>
                         <div>
-                            <p class="texto-gris">Puntaje de Riesgo</p>
+                            <p class="texto-gris">Puntaje</p>
                             <p class="numero-calculo" id="resultado-puntaje">0/10</p>
                         </div>
                         <div>
-                            <p class="texto-gris">Prioridad</p>
-                            <span class="badge badge-verde" id="resultado-prioridad">Bajo</span>
+                            <p class="texto-gris">Nivel</p>
+                            <span class="badge badge-verde" id="resultado-nivel">Bajo</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Campos ocultos para enviar los cálculos al backend -->
-                <input type="hidden" th:field="*{impacto}" id="campo-impacto">
-                <input type="hidden" th:field="*{puntajeRiesgo}" id="campo-puntaje">
-                <input type="hidden" th:field="*{prioridad}" id="campo-prioridad">
             </section>
 
-            <!-- SECCIÓN 3: Plan de Mitigación -->
             <section class="tarjeta-blanca contenedor-formulario">
-                <h3 class="seccion-form-titulo">Plan de Mitigación</h3>
+                <h3 class="seccion-form-titulo">Mitigacion</h3>
 
                 <div class="campo-grupo">
-                    <label>Plan de Mitigación</label>
+                    <label>Plan de Mitigacion</label>
                     <textarea th:field="*{planMitigacion}"
                               rows="5"
                               placeholder="Describe los pasos para mitigar esta vulnerabilidad..."></textarea>
                 </div>
 
-                <div class="campo-grupo">
-                    <label>Recomendación Técnica</label>
-                    <textarea th:field="*{recomendacionTecnica}"
-                              rows="5"
-                              placeholder="Proporciona recomendaciones técnicas específicas..."></textarea>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 4: Estado y Observaciones -->
-            <section class="tarjeta-blanca contenedor-formulario">
-                <h3 class="seccion-form-titulo">Estado y Observaciones</h3>
-
-                <div class="campo-grupo">
-                    <label>Estado <span class="requerido">*</span></label>
-                    <select th:field="*{estado}" required>
-                        <option value="Abierta">Abierta</option>
-                        <option value="En Progreso">En Progreso</option>
-                        <option value="Mitigada">Mitigada</option>
-                        <option value="Aceptada">Aceptada</option>
-                    </select>
-                </div>
-
-                <div class="campo-grupo">
-                    <label>Observaciones Adicionales</label>
-                    <textarea th:field="*{observaciones}"
-                              rows="4"
-                              placeholder="Notas adicionales, contexto, o comentarios..."></textarea>
-                </div>
-
                 <div class="acciones-formulario">
-                    <a th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${departamento.id})}">
+                    <a th:href="${returnUrl}">
                         <button type="button" class="btn-cancelar">Cancelar</button>
                     </a>
                     <button type="submit" class="btn-guardar">
@@ -273,43 +227,33 @@
             const d = parseFloat(document.querySelector('[name="disponibilidad"]').value) || 0;
             const p = parseFloat(document.querySelector('[name="probabilidad"]').value) || 0;
 
-            // Actualizar barras de progreso
-            actualizarBarra('barra-confidencialidad', c);
-            actualizarBarra('barra-integridad', i);
-            actualizarBarra('barra-disponibilidad', d);
-            actualizarBarra('barra-probabilidad', p);
+            const impacto = Number(((c + i + d) / 3).toFixed(2));
+            const puntaje = Number(((impacto + p) / 2).toFixed(2));
 
-            // Calcular impacto y puntaje
-            const impacto = ((c + i + d) / 3).toFixed(1);
-            const puntaje = ((parseFloat(impacto) + p) / 2).toFixed(1);
-
-            // Determinar prioridad
-            let prioridad = 'Bajo';
+            let nivel = 'Bajo';
             let claseBadge = 'badge-verde';
-            if (puntaje >= 7) { prioridad = 'Crítico'; claseBadge = 'badge-rojo'; }
-            else if (puntaje >= 5) { prioridad = 'Alto'; claseBadge = 'badge-naranja'; }
-            else if (puntaje >= 3) { prioridad = 'Medio'; claseBadge = 'badge-amarillo'; }
+            if (puntaje >= 7) {
+                nivel = 'Critico';
+                claseBadge = 'badge-rojo';
+            } else if (puntaje >= 5) {
+                nivel = 'Alto';
+                claseBadge = 'badge-naranja';
+            } else if (puntaje >= 3) {
+                nivel = 'Medio';
+                claseBadge = 'badge-amarillo';
+            }
 
-            // Mostrar resultados
             document.getElementById('resultado-impacto').textContent = impacto + '/10';
             document.getElementById('resultado-puntaje').textContent = puntaje + '/10';
-
-            const badgePrioridad = document.getElementById('resultado-prioridad');
-            badgePrioridad.textContent = prioridad;
-            badgePrioridad.className = 'badge ' + claseBadge;
-
-            // Enviar valores calculados al backend
             document.getElementById('campo-impacto').value = impacto;
-            document.getElementById('campo-puntaje').value = puntaje;
-            document.getElementById('campo-prioridad').value = prioridad;
+            document.getElementById('campo-nivel-riesgo').value = nivel;
+            document.getElementById('campo-nivel-riesgo-visible').value = nivel;
+
+            const badgeNivel = document.getElementById('resultado-nivel');
+            badgeNivel.textContent = nivel;
+            badgeNivel.className = 'badge ' + claseBadge;
         }
 
-        function actualizarBarra(id, valor) {
-            const barra = document.getElementById(id);
-            if (barra) barra.style.width = (valor * 10) + '%';
-        }
-
-        // Calcular al cargar la página (útil cuando se edita una vulnerabilidad existente)
         document.addEventListener('DOMContentLoaded', calcularRiesgo);
     </script>
 

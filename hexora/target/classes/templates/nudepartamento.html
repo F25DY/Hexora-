@@ -36,8 +36,8 @@
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <div class="datos-texto">
-                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
-                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
+                    <span class="nombre-usuario">Analista</span>
+                    <span class="correo-usuario">analista@gmail.com</span>
                 </div>
             </div>
             <a th:href="@{/logout}" class="boton-cerrar-sesion">
@@ -49,7 +49,7 @@
     <main class="contenido-principal">
 
         <header class="encabezado-retorno">
-            <a th:href="@{/proyectos/{id}(id=${proyecto.id})}" class="link-volver">
+            <a th:href="@{/proyectos/{id}(id=${auditoria.idAuditoria})}" class="link-volver">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <div class="titulos-nuevo">
@@ -62,29 +62,27 @@
         <section class="tarjeta-blanca contenedor-formulario">
             <h3 class="seccion-form-titulo">Información del Departamento</h3>
 
-            <form th:action="@{/proyectos/{id}/departamentos/guardar(id=${proyecto.id})}"
-                  th:object="${departamentoForm}"
-                  method="post"
-                  class="form-proyecto">
+            <form th:action="@{/proyectos/{id}/departamentos/guardar(id=${auditoria.idAuditoria})}"
+                    th:object="${departamentoForm}"
+                    method="post"
+                    class="form-proyecto">
 
                 <div class="campo-grupo">
                     <label>Nombre del Departamento <span class="requerido">*</span></label>
                     <input type="text"
-                           th:field="*{nombre}"
-                           placeholder="Ej: Aplicaciones Web, API REST, Infraestructura"
-                           required>
+                            th:field="*{nombre}"
+                            placeholder="Ej: Aplicaciones Web, API REST, Infraestructura" required>
                 </div>
 
                 <div class="campo-grupo">
                     <label>Descripción <span class="requerido">*</span></label>
                     <textarea th:field="*{descripcion}"
-                              rows="5"
-                              placeholder="Describe el alcance y área de este departamento..."
-                              required></textarea>
+                                rows="5"
+                                placeholder="Describe el alcance y área de este departamento..."required></textarea>
                 </div>
 
                 <div class="acciones-formulario">
-                    <a th:href="@{/proyectos/{id}(id=${proyecto.id})}">
+                    <a th:href="@{/proyectos/{id}(id=${auditoria.idAuditoria})}">
                         <button type="button" class="btn-cancelar">Cancelar</button>
                     </a>
                     <button type="submit" class="btn-guardar">

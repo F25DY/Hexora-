@@ -30,25 +30,10 @@
                 </li>
             </ul>
         </nav>
-        <div class="contenedor-usuario">
-            <div class="info-perfil">
-                <div class="avatar-usuario">
-                    <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <div class="datos-texto">
-                    <span class="nombre-usuario" th:text="${usuario.nombre}">Analista</span>
-                    <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
-                </div>
-            </div>
-            <a th:href="@{/logout}" class="boton-cerrar-sesion">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-            </a>
-        </div>
     </aside>
 
     <main class="contenido-principal">
 
-        <!-- Header: nombre + badge severidad + tipo y departamento + botón editar -->
         <header class="encabezado-retorno">
             <a th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${departamento.id})}"
                class="link-volver">
@@ -57,10 +42,10 @@
             <div class="titulos-nuevo">
                 <div class="titulo-con-badge">
                     <h1 class="titulo-pagina" th:text="${vulnerabilidad.nombre}">Nombre Vulnerabilidad</h1>
-                    <span th:text="${vulnerabilidad.prioridad}"
-                          th:classappend="${vulnerabilidad.prioridad == 'Crítico'} ? 'badge-rojo' :
-                                         (${vulnerabilidad.prioridad == 'Alto'} ? 'badge-naranja' :
-                                         (${vulnerabilidad.prioridad == 'Medio'} ? 'badge-amarillo' : 'badge-verde'))"
+                    <span th:text="${vulnerabilidad.nivelRiesgo}"
+                          th:classappend="${vulnerabilidad.nivelRiesgo == 'Critico'} ? 'badge-rojo' :
+                                         (${vulnerabilidad.nivelRiesgo == 'Alto'} ? 'badge-naranja' :
+                                         (${vulnerabilidad.nivelRiesgo == 'Medio'} ? 'badge-amarillo' : 'badge-verde'))"
                           class="badge">
                     </span>
                 </div>
@@ -78,7 +63,6 @@
             </a>
         </header>
 
-        <!-- Estado actual -->
         <section class="tarjeta-blanca estado-actual">
             <div class="estado-con-icono">
                 <i class="fa-solid fa-triangle-exclamation"
@@ -93,7 +77,6 @@
             </div>
         </section>
 
-        <!-- Tarjetas de métricas -->
         <section class="seccion-metricas">
             <article class="tarjeta-blanca">
                 <p class="texto-gris">Impacto</p>
@@ -104,38 +87,47 @@
                 <h2 class="numero-grande" th:text="${vulnerabilidad.probabilidad} + '/10'">0/10</h2>
             </article>
             <article class="tarjeta-blanca">
-                <p class="texto-gris">Puntaje de Riesgo</p>
-                <h2 class="numero-grande" th:text="${vulnerabilidad.puntajeRiesgo} + '/10'">0/10</h2>
+                <p class="texto-gris">Nivel de Riesgo</p>
+                <h2 class="numero-grande" th:text="${vulnerabilidad.nivelRiesgo}">Bajo</h2>
             </article>
             <article class="tarjeta-blanca">
-                <p class="texto-gris">Fecha de Detección</p>
+                <p class="texto-gris">Fecha de Deteccion</p>
                 <h2 class="numero-grande" th:text="${vulnerabilidad.fechaDeteccion}">--</h2>
             </article>
         </section>
 
-        <!-- Descripción -->
         <section class="tarjeta-blanca contenedor-formulario">
-            <h3 class="seccion-form-titulo">Descripción</h3>
-            <p th:text="${vulnerabilidad.descripcion}">Sin descripción.</p>
-        </section>
-
-        <!-- Método y tipo -->
-        <section class="tarjeta-blanca contenedor-formulario">
+            <h3 class="seccion-form-titulo">Activo Afectado</h3>
             <div class="grid-form">
                 <div>
-                    <p class="texto-gris">Método de Descubrimiento</p>
-                    <p th:text="${vulnerabilidad.metodoDescubrimiento}">--</p>
+                    <p class="texto-gris">Herramienta</p>
+                    <p th:text="${vulnerabilidad.herramienta} ?: '--'">--</p>
                 </div>
                 <div>
-                    <p class="texto-gris">Tipo de Vulnerabilidad</p>
-                    <p th:text="${vulnerabilidad.tipo}">--</p>
+                    <p class="texto-gris">Host</p>
+                    <p th:text="${vulnerabilidad.host} ?: '--'">--</p>
+                </div>
+                <div>
+                    <p class="texto-gris">IP</p>
+                    <p th:text="${vulnerabilidad.ipAfectada} ?: '--'">--</p>
+                </div>
+                <div>
+                    <p class="texto-gris">Puerto</p>
+                    <p th:text="${vulnerabilidad.puerto} ?: '--'">--</p>
+                </div>
+                <div>
+                    <p class="texto-gris">Servicio</p>
+                    <p th:text="${vulnerabilidad.servicio} ?: '--'">--</p>
+                </div>
+                <div>
+                    <p class="texto-gris">CVE</p>
+                    <p th:text="${vulnerabilidad.cve} ?: '--'">--</p>
                 </div>
             </div>
         </section>
 
-        <!-- Análisis CIA -->
         <section class="tarjeta-blanca contenedor-formulario">
-            <h3 class="seccion-form-titulo">Análisis CIA (Confidencialidad, Integridad, Disponibilidad)</h3>
+            <h3 class="seccion-form-titulo">Analisis CIA</h3>
 
             <div class="cia-item">
                 <div class="cia-header">
@@ -174,45 +166,11 @@
             </div>
         </section>
 
-        <!-- Plan de Mitigación -->
         <section class="tarjeta-blanca contenedor-formulario">
-            <h3 class="seccion-form-titulo">Plan de Mitigación</h3>
-            <p th:text="${vulnerabilidad.planMitigacion}">Sin plan de mitigación registrado.</p>
-        </section>
-
-        <!-- Recomendaciones Técnicas -->
-        <section class="tarjeta-blanca contenedor-formulario">
-            <h3 class="seccion-form-titulo">Recomendaciones Técnicas</h3>
-            <p th:text="${vulnerabilidad.recomendacionTecnica}">Sin recomendaciones registradas.</p>
-        </section>
-
-        <!-- Observaciones Adicionales -->
-        <section class="tarjeta-blanca contenedor-formulario"
-                 th:if="${vulnerabilidad.observaciones != null and !vulnerabilidad.observaciones.isEmpty()}">
-            <h3 class="seccion-form-titulo">Observaciones Adicionales</h3>
-            <p th:text="${vulnerabilidad.observaciones}"></p>
-        </section>
-
-        <!-- Historial de Actividad -->
-        <section class="tarjeta-blanca contenedor-formulario">
-            <h3 class="seccion-form-titulo">Historial de Actividad</h3>
-            <ul class="lista-actividad">
-                <li th:each="evento : ${historial}">
-                    <i class="fa-solid fa-circle dot-azul"></i>
-                    <div class="actividad-texto">
-                        <strong th:text="${evento.descripcion}">Evento</strong>
-                        <small th:text="${evento.usuario} + ' • ' + ${evento.fecha}">Usuario • Fecha</small>
-                    </div>
-                </li>
-                <!-- Mensaje si no hay historial -->
-                <li th:if="${#lists.isEmpty(historial)}">
-                    <i class="fa-solid fa-circle dot-gris"></i>
-                    <div class="actividad-texto">
-                        <strong>Vulnerabilidad detectada</strong>
-                        <small th:text="${usuario.nombre} + ' • ' + ${vulnerabilidad.fechaDeteccion}"></small>
-                    </div>
-                </li>
-            </ul>
+            <h3 class="seccion-form-titulo">Plan de Mitigacion</h3>
+            <p th:text="${vulnerabilidad.planMitigacion} ?: 'Sin plan de mitigacion registrado.'">
+                Sin plan de mitigacion registrado.
+            </p>
         </section>
 
     </main>
