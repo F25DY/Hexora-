@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class DashboardController {
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard", "/inicio"})
     public String dashboard() {
         return "dashboard";
     }

@@ -14,6 +14,11 @@ public class AuthController {
         return "index";
     }
 
+    @GetMapping({"/logout", "/recuperar-contrasena"})
+    public String volverAlLogin() {
+        return "redirect:/";
+    }
+
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password) {
         // No hay login real, se redirige directamente al dashboard.
