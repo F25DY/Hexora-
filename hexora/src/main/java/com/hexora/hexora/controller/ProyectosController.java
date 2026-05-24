@@ -199,12 +199,24 @@ public class ProyectosController {
         Auditoria auditoria = auditoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
         Empresa empresa = auditoria.getEmpresa();
 
-        //Si deseamos eliminar solo auditoria y dejar empresa comenta las siguientes dos lineas y descomenta la línea de auditoriaRepository.deleteById(id);
+        var departamentos = areaAuditableRepository.findByAuditoria(auditoria);
+
+        for (var departamento : departamentos) {
+            var vulnerabilidades = vulnerabilidadRepository.findByAreaAuditable(departamento);
+            vulnerabilidadRepository.deleteAll(vulnerabilidades);
+        }
+        vulnerabilidadRepository.flush();
+
+        areaAuditableRepository.deleteAll(departamentos);
+        areaAuditableRepository.flush();
 
         auditoriaRepository.delete(auditoria);
-        empresaRepository.delete(empresa);
+        auditoriaRepository.flush();
 
-        //auditoriaRepository.deleteById(id);
+        if (empresa != null && auditoriaRepository.countByEmpresa(empresa) == 0) {
+            empresaRepository.delete(empresa);
+        }
+
         return "redirect:/proyectos";
     }
 

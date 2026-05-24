@@ -30,7 +30,7 @@ public class Auditoria {
     @Column(nullable = false)
     private LocalDate fechaInico;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private LocalDate fechaFin;
 
     @Column(nullable = false, length = 30)

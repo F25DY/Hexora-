@@ -123,6 +123,10 @@ public class AreaController {
                 .orElseThrow(() -> new IllegalArgumentException("Area no encontrada"));
 
         Long idProyecto = area.getAuditoria().getIdAuditoria();
+        var vulnerabilidades = vulnerabilidadRepository.findByAreaAuditable(area);
+        vulnerabilidadRepository.deleteAll(vulnerabilidades);
+        vulnerabilidadRepository.flush();
+
         areaAuditableRepository.delete(area);
 
         return "redirect:/proyectos/" + idProyecto;
