@@ -2,42 +2,22 @@ package com.hexora.hexora.model;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name= "auditoria")
+// Frontend-only mode: JPA annotations disabled
 public class Auditoria {
 
     //Definimos Id
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_auditoria")
     private Long idAuditoria;
     
-    @Column(nullable= false, length=150)
     private String nombre;
 
-    @Column(name = "tipo_auditoria", nullable = false, length = 80)
     private String tipoAuditoria;
 
-    @Column(nullable = false)
     private LocalDate fechaInico;
 
-    @Column(nullable = false)
     private LocalDate fechaFin;
 
-    @Column(nullable = false, length = 30)
     private String estado;
 
-    @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
 
     //@ManyToOne

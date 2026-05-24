@@ -1,30 +1,37 @@
 package com.hexora.hexora.controller;
 
-import java.time.LocalDate;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.hexora.hexora.model.Auditoria;
-import com.hexora.hexora.model.Empresa;
-import com.hexora.hexora.repository.AuditoriaRepository;
-import com.hexora.hexora.repository.EmpresaRepository;
-
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
+@Controller
+public class ProyectosController {
 
+    @GetMapping("/proyectos")
+    public String proyectos() {
+        return "proyectos";
+    }
+
+    @GetMapping("/proyectos/nuproyectos")
+    public String crearProyecto() {
+        return "nuproyectos";
+    }
+
+    @PostMapping("/proyectos/guardar")
+    public String guardarProyecto() {
+        return "redirect:/proyectos";
+    }
+
+}
+
+/* 
 @Controller
 @RequestMapping("/proyectos")
 public class ProyectosController {
 
-    private final AuditoriaRepository auditoriaRepository;
-    private final EmpresaRepository empresaRepository;
+    //private final AuditoriaRepository auditoriaRepository;
+    //private final EmpresaRepository empresaRepository;
 
     
     public ProyectosController(AuditoriaRepository auditoriaRepository, EmpresaRepository empresaRepository) {
@@ -141,3 +148,4 @@ public class ProyectosController {
     }
     
 }
+*/

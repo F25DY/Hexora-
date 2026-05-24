@@ -3,75 +3,44 @@ package com.hexora.hexora.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "vulnerabilidad")
+// Frontend-only mode: JPA annotations disabled
 public class Vulnerabilidad {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 150)
     private String nombre;
 
-    @Column(nullable = false, length = 100)
     private String tipo;
 
-    @Column(length = 100)
     private String herramienta;
 
-    @Column(name="hostAfectado", length = 150)
     private String host;
 
-    @Column(length = 45)
     private String ipAfectada;
 
-    @Column(name="puertoAfectado")
     private Integer puerto;
 
-    @Column(length = 100)
     private String servicio;
 
-    @Column(length = 30)
     private String cve;
 
-    @Column(nullable = false)
     private int confidencialidad;
 
-    @Column(nullable = false)
     private int integridad;
 
-    @Column(nullable = false)
     private int disponibilidad;
 
-    @Column(nullable = false)
     private int probabilidad;
 
-    @Column(nullable = false, precision = 4, scale = 2)
     private BigDecimal impacto;
 
-    @Column(nullable = false, length = 20)
     private String nivelRiesgo;
 
-    @Column(columnDefinition = "TEXT")
     private String planMitigacion;
 
-    @Column(nullable = false, length = 30)
     private String estado;
 
-    @Column(name = "fechaDescubrimiento", nullable = false)
     private LocalDate fechaDeteccion;
 
-    @ManyToOne
-    @JoinColumn(name = "id_area", nullable = false)
     private AreaAuditable areaAuditable;
 
     //Constructores
@@ -136,6 +105,22 @@ public class Vulnerabilidad {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public String getHerramienta() {
+        return herramienta;
+    }
+
+    public void setHerramienta(String herramienta) {
+        this.herramienta = herramienta;
+    }
+
+    public String getIpAfectada() {
+        return ipAfectada;
+    }
+
+    public void setIpAfectada(String ipAfectada) {
+        this.ipAfectada = ipAfectada;
     }
 
     public int getPuerto() {

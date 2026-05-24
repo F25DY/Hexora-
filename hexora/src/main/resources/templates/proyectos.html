@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hexora - Proyectos</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <aside class="sidebar">
         <div class="logo-plataforma">
             <div class="textos-marca">
-                <img th:src="@{/imagen/logo.png}" width="40" alt="Logo">
+                <img src="../static/imagen/logo.png" th:src="@{/imagen/logo.png}" width="40" alt="Logo">
                 <span class="nombre-completo">Hexora</span>
             </div>
         </div>
@@ -20,13 +20,13 @@
         <nav class="menu">
             <ul>
                 <li>
-                    <a th:href="@{/dashboard}" class="enlace-menu">
+                    <a href="dashboard.html" th:href="@{/dashboard}" class="enlace-menu">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                 </li>
 
                 <li>
-                    <a th:href="@{/proyectos}" class="enlace-menu activo">
+                    <a href="proyectos.html" th:href="@{/proyectos}" class="enlace-menu activo">
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
@@ -49,7 +49,7 @@
             </div>
 
             <div>
-                <a th:href="@{/logout}" class="boton-cerrar-sesion">
+                <a href="index.html" th:href="@{/logout}" class="boton-cerrar-sesion">
                     <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
                 </a>
             </div>
@@ -70,7 +70,7 @@
                 <p class="subtitulo">Administra tus proyectos de auditoría y pentesting</p>
             </div>
 
-            <a th:href="@{/proyectos/nuproyectos}" style="text-decoration: none;">
+            <a href="nuproyectos.html" th:href="@{/proyectos/nuproyectos}" style="text-decoration: none;">
                 <button class="btn-crear">
                     <i class="fa-solid fa-plus"></i> Crear Proyecto
                 </button>
@@ -108,7 +108,7 @@
 
                     <tr th:each="aud : ${auditorias}">
                         <td class="nombre-destacado">
-                            <a th:href="@{/proyectos/{id}(id=${aud.idAuditoria})}" style="text-decoration:none;color:inherit;">
+                            <a href="detalleproyecto.html" th:href="@{/proyectos/{id}(id=${aud.idAuditoria})}" style="text-decoration:none;color:inherit;">
                                 <span th:text="${aud.nombre}"></span>
                             </a>
                         </td>
@@ -124,8 +124,8 @@
                         <td th:text="${aud.fechaInico}"></td>
                         <td th:text="${aud.fechaFin}"></td>
                         <td>
-                            <a th:href="@{/proyectos/{id}(id=${aud.idAuditoria})}" class="btn-verdetalle">Ver</a>
-                            <form th:action="@{/proyectos/{id}/eliminar(id=${aud.idAuditoria})}" method="post" style="display:inline">
+                            <a href="detalleproyecto.html" th:href="@{/proyectos/{id}(id=${aud.idAuditoria})}" class="btn-verdetalle">Ver</a>
+                            <form action="proyectos.html" th:action="@{/proyectos/{id}/eliminar(id=${aud.idAuditoria})}" method="post" style="display:inline">
                                 <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar proyecto?')">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>

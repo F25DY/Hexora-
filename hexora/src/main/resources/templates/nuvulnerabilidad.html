@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hexora - Nueva Vulnerabilidad</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -12,19 +12,19 @@
     <aside class="sidebar">
         <div class="logo-plataforma">
             <div class="textos-marca">
-                <img th:src="@{/imagen/logo.png}" width="40" alt="Logo">
+                <img src="../static/imagen/logo.png" th:src="@{/imagen/logo.png}" width="40" alt="Logo">
                 <span class="nombre-completo">Hexora</span>
             </div>
         </div>
         <nav class="menu">
             <ul>
                 <li>
-                    <a th:href="@{/inicio}" class="enlace-menu">
+                    <a href="dashboard.html" th:href="@{/dashboard}" class="enlace-menu">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/proyectos}" class="enlace-menu activo">
+                    <a href="proyectos.html" th:href="@{/proyectos}" class="enlace-menu activo">
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
@@ -40,7 +40,7 @@
                     <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
                 </div>
             </div>
-            <a th:href="@{/logout}" class="boton-cerrar-sesion">
+            <a href="index.html" th:href="@{/logout}" class="boton-cerrar-sesion">
                 <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
             </a>
         </div>
@@ -49,7 +49,7 @@
     <main class="contenido-principal">
 
         <header class="encabezado-retorno">
-            <a th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${departamento.id})}"
+            <a href="detalledepartamento.html" th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${departamento.id})}"
                class="link-volver">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
@@ -65,7 +65,7 @@
             </div>
         </header>
 
-        <form th:action="${vulnerabilidadForm.id != null} ?
+        <form action="detalledepartamento.html" th:action="${vulnerabilidadForm.id != null} ?
                          @{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}/actualizar(pid=${proyecto.id}, did=${departamento.id}, vid=${vulnerabilidadForm.id})} :
                          @{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/guardar(pid=${proyecto.id}, did=${departamento.id})}"
               th:object="${vulnerabilidadForm}"
@@ -251,7 +251,7 @@
                 </div>
 
                 <div class="acciones-formulario">
-                    <a th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${departamento.id})}">
+                    <a href="detalledepartamento.html" th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${departamento.id})}">
                         <button type="button" class="btn-cancelar">Cancelar</button>
                     </a>
                     <button type="submit" class="btn-guardar">

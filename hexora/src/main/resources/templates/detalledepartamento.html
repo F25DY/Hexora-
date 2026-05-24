@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hexora - Detalle Departamento</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -12,19 +12,19 @@
     <aside class="sidebar">
         <div class="logo-plataforma">
             <div class="textos-marca">
-                <img th:src="@{/imagen/logo.png}" width="40" alt="Logo">
+                <img src="../static/imagen/logo.png" th:src="@{/imagen/logo.png}" width="40" alt="Logo">
                 <span class="nombre-completo">Hexora</span>
             </div>
         </div>
         <nav class="menu">
             <ul>
                 <li>
-                    <a th:href="@{/inicio}" class="enlace-menu">
+                    <a href="dashboard.html" th:href="@{/dashboard}" class="enlace-menu">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/proyectos}" class="enlace-menu activo">
+                    <a href="proyectos.html" th:href="@{/proyectos}" class="enlace-menu activo">
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
@@ -40,7 +40,7 @@
                     <span class="correo-usuario" th:text="${usuario.correo}">analista@gmail.com</span>
                 </div>
             </div>
-            <a th:href="@{/logout}" class="boton-cerrar-sesion">
+            <a href="index.html" th:href="@{/logout}" class="boton-cerrar-sesion">
                 <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
             </a>
         </div>
@@ -50,14 +50,14 @@
 
         <!-- Header: nombre del departamento + proyecto + botón agregar vulnerabilidad -->
         <header class="encabezado-retorno">
-            <a th:href="@{/proyectos/{id}(id=${proyecto.id})}" class="link-volver">
+            <a href="detalleproyecto.html" th:href="@{/proyectos/{id}(id=${proyecto.id})}" class="link-volver">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <div class="titulos-nuevo">
                 <h1 class="titulo-pagina" th:text="${departamento.nombre}">Nombre Departamento</h1>
                 <p class="subtitulo" th:text="${proyecto.nombre}">Nombre Proyecto</p>
             </div>
-            <a th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/nueva(pid=${proyecto.id}, did=${departamento.id})}"
+            <a href="nuvulnerabilidad.html" th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/nueva(pid=${proyecto.id}, did=${departamento.id})}"
                style="text-decoration: none;">
                 <button class="btn-crear">
                     <i class="fa-solid fa-plus"></i> Agregar Vulnerabilidad
@@ -128,7 +128,7 @@
 
                     <!-- Nombre clickeable que lleva al detalle de la vulnerabilidad -->
                     <td class="nombre-destacado">
-                        <a th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}(pid=${proyecto.id}, did=${departamento.id}, vid=${vuln.id})}"
+                        <a href="detallevulnerabilidad.html" th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}(pid=${proyecto.id}, did=${departamento.id}, vid=${vuln.id})}"
                            style="text-decoration: none; color: inherit;">
                             <span th:text="${vuln.nombre}"></span>
                         </a>
@@ -162,7 +162,7 @@
                     <td class="acciones-tabla">
 
                         <!-- Botón editar -->
-                        <a th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}/editar(pid=${proyecto.id}, did=${departamento.id}, vid=${vuln.id})}"
+                    <a href="nuvulnerabilidad.html" th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}/editar(pid=${proyecto.id}, did=${departamento.id}, vid=${vuln.id})}"
                            class="btn-icono btn-editar">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>

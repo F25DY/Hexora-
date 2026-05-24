@@ -1,9 +1,9 @@
-package com.hexora.hexora.repository;
+//package com.hexora.hexora.repository;
+//
+//mport org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+//import com.hexora.hexora.model.Auditoria;
 
-import com.hexora.hexora.model.Auditoria;
+//public interface AuditoriaRepository extends JpaRepository<Auditoria, Long> {
 
-public interface AuditoriaRepository extends JpaRepository<Auditoria, Long> {
-
-}
+//}

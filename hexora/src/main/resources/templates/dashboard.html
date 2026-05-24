@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hexora - Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <a th:href="@{/}" class="boton-cerrar-sesion">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesiï¿½n
             </a>
         </div>
     </aside>
@@ -73,7 +73,7 @@
             <article class="tarjeta-blanca">
                 <div class="icono-circulo rojo"><i class="fa-solid fa-bolt"></i></div>
                 <h2 class="numero-grande">8</h2>
-                <p class="texto-gris">Críticas</p>
+                <p class="texto-gris">Crï¿½ticas</p>
             </article>
             <article class="tarjeta-blanca">
                 <div class="icono-circulo verde"><i class="fa-solid fa-check-double"></i></div>
@@ -84,9 +84,9 @@
 
         <div class="grid-intermedio">
             <section class="tarjeta-blanca container-riesgos">
-                <h3>Distribución de Riesgos</h3>
+                <h3>Distribuciï¿½n de Riesgos</h3>
                 <div class="risk-item">
-                    <div class="risk-info"><span>Crítico</span> <span class="badge bg-rojo">8</span></div>
+                    <div class="risk-info"><span>Crï¿½tico</span> <span class="badge bg-rojo">8</span></div>
                     <div class="progress-bar"><div class="progress bg-rojo" style="width: 25%;"></div></div>
                 </div>
                 <div class="risk-item">
@@ -108,8 +108,8 @@
                     <li>
                         <i class="fa-solid fa-circle dot-rojo"></i>
                         <div class="actividad-texto">
-                            <strong>Auditoría Sistema Bancario</strong>
-                            <p>Nueva vulnerabilidad crítica detectada</p>
+                            <strong>Auditorï¿½a Sistema Bancario</strong>
+                            <p>Nueva vulnerabilidad crï¿½tica detectada</p>
                             <small>Hace 2 horas</small>
                         </div>
                     </li>
@@ -124,9 +124,9 @@
                     <li>
                         <i class="fa-solid fa-circle dot-azul"></i>
                         <div class="actividad-texto">
-                            <strong>Análisis Infraestructura Cloud</strong>
+                            <strong>Anï¿½lisis Infraestructura Cloud</strong>
                             <p>Proyecto actualizado</p>
-                            <small>Hace 1 día</small>
+                            <small>Hace 1 dï¿½a</small>
                         </div>
                     </li>
                 </ul>
@@ -134,7 +134,7 @@
         </div>
 
         <section class="tarjeta-blanca seccion-acciones">
-            <h3>Acciones Rápidas</h3>
+            <h3>Acciones Rï¿½pidas</h3>
             <div class="contenedor-botones">
                 <a th:href="@{/proyectos/nuproyectos}"><button class="btn btn-primario">Crear Nuevo Proyecto</button></a>
                 <a th:href="@{/proyectos}"><button class="btn btn-secundario">Ver Todos los Proyectos</button></a>
