@@ -306,7 +306,13 @@
 
         function actualizarBarra(id, valor) {
             const barra = document.getElementById(id);
-            if (barra) barra.style.width = (valor * 10) + '%';
+            if (!barra) return;
+
+            const porcentaje = Math.max(0, Math.min(100, Math.round(valor) * 10));
+            Array.from(barra.classList)
+                .filter(clase => clase.startsWith('progreso-'))
+                .forEach(clase => barra.classList.remove(clase));
+            barra.classList.add('progreso-' + porcentaje);
         }
 
         // Calcular al cargar la página (útil cuando se edita una vulnerabilidad existente)

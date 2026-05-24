@@ -58,8 +58,7 @@
                 <p class="subtitulo" th:text="${proyecto.empresa}">Empresa</p>
             </div>
             <!-- Botón que va a agregar departamento pasando el ID del proyecto -->
-            <a href="nudepartamento.html" th:href="@{/proyectos/{id}/departamentos/nuevo(id=${proyecto.id})}" 
-               style="text-decoration:none;">
+            <a href="nudepartamento.html" th:href="@{/proyectos/{id}/departamentos/nuevo(id=${proyecto.id})}">
                 <button class="btn-crear">
                     <i class="fa-solid fa-plus"></i> Agregar Departamento
                 </button>
@@ -134,7 +133,7 @@
 
             <!-- Mensaje si no hay departamentos -->
             <div th:if="${#lists.isEmpty(departamentos)}" class="tarjeta-blanca">
-                <p style="text-align:center;">No hay departamentos registrados para este proyecto.</p>
+                <p class="texto-centro">No hay departamentos registrados para este proyecto.</p>
             </div>
 
             <!-- Tarjeta por cada departamento -->
@@ -154,9 +153,8 @@
                     </div>
                 </div>
 
-                <a href="detalledepartamento.html" th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${dep.id})}"
-                   style="text-decoration:none;">
-                    <button class="btn btn-primario" style="width:100%; margin-top:1rem;">
+                <a href="detalledepartamento.html" th:href="@{/proyectos/{pid}/departamentos/{did}(pid=${proyecto.id}, did=${dep.id})}">
+                    <button class="btn btn-primario btn-full mt-1">
                         <i class="fa-solid fa-folder-open"></i> Ver Vulnerabilidades
                     </button>
                 </a>
@@ -170,7 +168,7 @@
             const texto = document.getElementById('buscador').value.toLowerCase();
             const tarjetas = document.querySelectorAll('.tarjeta-departamento');
             tarjetas.forEach(t => {
-                t.style.display = t.textContent.toLowerCase().includes(texto) ? '' : 'none';
+                t.classList.toggle('oculto', !t.textContent.toLowerCase().includes(texto));
             });
         }
     </script>

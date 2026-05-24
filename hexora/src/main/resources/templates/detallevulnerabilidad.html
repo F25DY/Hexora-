@@ -70,8 +70,7 @@
                     <span th:text="${departamento.nombre}"></span>
                 </p>
             </div>
-            <a href="nuvulnerabilidad.html" th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}/editar(pid=${proyecto.id}, did=${departamento.id}, vid=${vulnerabilidad.id})}"
-               style="text-decoration: none;">
+            <a href="nuvulnerabilidad.html" th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}/editar(pid=${proyecto.id}, did=${departamento.id}, vid=${vulnerabilidad.id})}">
                 <button class="btn-crear">
                     <i class="fa-solid fa-pen-to-square"></i> Editar
                 </button>
@@ -144,7 +143,7 @@
                 </div>
                 <div class="barra-progreso-input">
                     <div class="barra-progreso-relleno barra-cyan"
-                         th:style="'width: ' + ${vulnerabilidad.confidencialidad * 10} + '%;'">
+                         th:classappend="' progreso-' + ${vulnerabilidad.confidencialidad * 10}">
                     </div>
                 </div>
             </div>
@@ -156,7 +155,7 @@
                 </div>
                 <div class="barra-progreso-input">
                     <div class="barra-progreso-relleno barra-cyan"
-                         th:style="'width: ' + ${vulnerabilidad.integridad * 10} + '%;'">
+                         th:classappend="' progreso-' + ${vulnerabilidad.integridad * 10}">
                     </div>
                 </div>
             </div>
@@ -168,7 +167,7 @@
                 </div>
                 <div class="barra-progreso-input">
                     <div class="barra-progreso-relleno barra-cyan"
-                         th:style="'width: ' + ${vulnerabilidad.disponibilidad * 10} + '%;'">
+                         th:classappend="' progreso-' + ${vulnerabilidad.disponibilidad * 10}">
                     </div>
                 </div>
             </div>

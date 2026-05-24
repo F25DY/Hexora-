@@ -7,86 +7,84 @@
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body style="display: flex; background-color: #f4f7f9; margin: 0;">
+<body class="app-page">
 
     <!-- Sidebar -->
-    <aside class="sidebar" style="width: 250px; height: 100vh; background-color: #003554; color: white; padding: 20px; box-sizing: border-box;">
-        <div class="logo-plataforma" style="margin-bottom: 40px;">
-            <div style="font-size: 24px; font-weight: bold; color: #00c2e0;">
+    <aside class="sidebar">
+        <div class="logo-plataforma">
+            <div class="marca-simple">
                 <i class="fa-solid fa-shield"></i> Hexora
             </div>
         </div>
         <nav class="menu">
-            <ul style="list-style: none; padding: 0; margin: 0;">
-                <li style="margin-bottom: 10px;">
-                    <a href="dashboard.html" th:href="@{/dashboard}" class="enlace-menu" style="color: #cbd5e0; text-decoration: none; display: block; padding: 10px; border-radius: 5px;">
+            <ul>
+                <li>
+                    <a href="dashboard.html" th:href="@{/dashboard}" class="enlace-menu">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                 </li>
-                <li style="margin-bottom: 10px;">
-                    <a href="proyectos.html" th:href="@{/proyectos}" class="enlace-menu" style="color: #cbd5e0; text-decoration: none; display: block; padding: 10px; border-radius: 5px; background-color: #0077b6;">
+                <li>
+                    <a href="proyectos.html" th:href="@{/proyectos}" class="enlace-menu activo">
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
                 </li>
             </ul>
         </nav>
-        <div class="contenedor-usuario" style="margin-top: auto; padding-top: 20px; border-top: 1px solid #0a2d3a;">
-            <div class="info-perfil" style="display: flex; align-items: center; gap: 10px;">
-                <div class="avatar-usuario" style="width: 40px; height: 40px; background-color: #00c2e0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #003554;">
+        <div class="contenedor-usuario">
+            <div class="info-perfil">
+                <div class="avatar-usuario">
                     <i class="fa-solid fa-user"></i>
                 </div>
                 <div class="datos-texto">
-                    <span class="nombre-usuario" style="display: block; font-weight: 600;">Analista</span>
-                    <span class="correo-usuario" style="display: block; font-size: 12px; color: #cbd5e0;">analista@gmail.com</span>
+                    <span class="nombre-usuario">Analista</span>
+                    <span class="correo-usuario">analista@gmail.com</span>
                 </div>
             </div>
-            <a href="index.html" th:href="@{/logout}" class="boton-cerrar-sesion" style="display: block; margin-top: 15px; color: #cbd5e0; text-decoration: none; padding: 8px; text-align: center; border: 1px solid #cbd5e0; border-radius: 5px;">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            <a href="index.html" th:href="@{/logout}" class="boton-cerrar-sesion">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesion
             </a>
         </div>
     </aside>
 
     <!-- Contenido Principal -->
-    <main class="contenido-principal" style="flex: 1; padding: 40px; overflow-y: auto;">
+    <main class="contenido-principal">
 
-        <header class="encabezado-retorno" style="margin-bottom: 30px; display: flex; align-items: center; gap: 15px;">
-            <a href="proyectos.html" th:href="@{/proyectos}" style="font-size: 24px; color: #0077b6; text-decoration: none;">
+        <header class="encabezado-retorno">
+            <a href="proyectos.html" th:href="@{/proyectos}" class="link-volver">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <div class="titulos-nuevo">
-                <h1 class="titulo-pagina" style="color: #0077b6; font-size: 28px; margin: 0; font-weight: 600;">Agregar Nuevo Departamento</h1>
-                <p class="subtitulo" style="color: #666; margin: 8px 0 0 0;">Crea un departamento para organizar las vulnerabilidades del proyecto</p>
+                <h1 class="titulo-pagina">Agregar Nuevo Departamento</h1>
+                <p class="subtitulo">Crea un departamento para organizar las vulnerabilidades del proyecto</p>
             </div>
         </header>
 
-        <section class="tarjeta-blanca" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 600px;">
-            <h3 class="seccion-form-titulo" style="font-size: 18px; color: #333; margin-bottom: 25px; font-weight: 600;">Información del Departamento</h3>
+        <section class="tarjeta-blanca tarjeta-formulario">
+            <h3 class="seccion-form-titulo">Informacion del Departamento</h3>
 
-            <form method="post" style="display: flex; flex-direction: column; gap: 20px;">
+            <form method="post" class="form-proyecto">
 
                 <div class="campo-grupo">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Nombre del Departamento <span style="color: #e74c3c;">*</span></label>
+                    <label>Nombre del Departamento <span class="requerido">*</span></label>
                     <input type="text"
                            name="nombre"
                            placeholder="Ej: Aplicaciones Web, API REST, Infraestructura"
-                           style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: 'Segoe UI', sans-serif; box-sizing: border-box;"
                            required>
                 </div>
 
                 <div class="campo-grupo">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Descripción <span style="color: #e74c3c;">*</span></label>
+                    <label>Descripcion <span class="requerido">*</span></label>
                     <textarea name="descripcion"
                               rows="5"
-                              placeholder="Describe el alcance y área de este departamento..."
-                              style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: 'Segoe UI', sans-serif; box-sizing: border-box; resize: vertical;"
+                              placeholder="Describe el alcance y area de este departamento..."
                               required></textarea>
                 </div>
 
-                <div class="acciones-formulario" style="display: flex; gap: 10px; margin-top: 25px;">
-                    <button type="button" onclick="window.location.href='proyectos.html'" class="btn-cancelar" style="flex: 1; background-color: #e2e8f0; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                <div class="acciones-formulario">
+                    <button type="button" onclick="window.location.href='proyectos.html'" class="btn-cancelar">
                         Cancelar
                     </button>
-                    <button type="submit" class="btn-guardar" style="flex: 1; background-color: #0077b6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                    <button type="submit" class="btn-guardar">
                         <i class="fa-solid fa-floppy-disk"></i> Crear Departamento
                     </button>
                 </div>
