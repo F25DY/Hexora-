@@ -100,8 +100,8 @@
             <div class="campo-busqueda">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="buscador"
-                       placeholder="Buscar vulnerabilidades por nombre o tipo..."
-                       onkeyup="filtrarTabla()">
+                    placeholder="Buscar vulnerabilidades por nombre o tipo..."
+                    onkeyup="filtrarTabla()">
             </div>
         </section>
 
@@ -129,7 +129,7 @@
                     <!-- Nombre clickeable que lleva al detalle de la vulnerabilidad -->
                     <td class="nombre-destacado">
                         <a th:href="@{/proyectos/{pid}/departamentos/{did}/vulnerabilidades/{vid}(pid=${proyecto.id}, did=${departamento.id}, vid=${vuln.id})}"
-                           style="text-decoration: none; color: inherit;">
+                            style="text-decoration: none; color: inherit;">
                             <span th:text="${vuln.nombre}"></span>
                         </a>
                     </td>

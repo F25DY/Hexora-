@@ -23,7 +23,6 @@
                 <label for="contraseña">Contraseña</label>
                 <input type="password" id="contraseña" name="password" placeholder="••••••••" required>
 
-                <!-- Mensaje de error si las credenciales son incorrectas -->
                 <p th:if="${error}" th:text="${error}" style="color:red;"></p>
 
                 <button type="submit">Iniciar Sesión</button>
