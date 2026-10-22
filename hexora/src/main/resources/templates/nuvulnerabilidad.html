@@ -126,10 +126,11 @@
                         <input type="text" th:field="*{servicio}" placeholder="Ej: HTTPS, SSH, MySQL">
                     </div>
 
-                    <div class="campo-grupo">
+                    <div class="campo-grupo" style="grid-column: 1 / -1;">
                         <label>CVE</label>
-                        <input type="text" th:field="*{cve}" placeholder="Ej: CVE-2026-0001">
-                    </div>
+                        <input type="text" th:field="*{cve}" placeholder="Ej: CVE-2026-0001 o una palabra como apache" autocomplete="off">
+                        <small class="nota-nvd">This product uses the NVD API but is not endorsed or certified by the NVD.</small>
+                   </div>
                 </div>
             </section>
 
@@ -256,6 +257,7 @@
 
         document.addEventListener('DOMContentLoaded', calcularRiesgo);
     </script>
+    <script th:src="@{/js/cve-buscador.js}"></script>
 
 </body>
 </html>
