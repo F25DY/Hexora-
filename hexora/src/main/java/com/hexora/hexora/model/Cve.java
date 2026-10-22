@@ -1,0 +1,124 @@
+package com.hexora.hexora.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+/**
+ * Copia local de un CVE traído desde la API del NVD.
+ * Representa la tabla "cve" creada en V3__crear_tabla_cve.sql.
+ */
+@Entity
+@Table(name = "cve")
+public class Cve {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_cve")
+    private Long id;
+
+    @Column(name = "codigo_cve", nullable = false, unique = true, length = 30)
+    private String codigoCve;
+
+    @Column(columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(name = "puntaje_cvss", precision = 3, scale = 1)
+    private BigDecimal puntajeCvss;
+
+    @Column(length = 20)
+    private String severidad;
+
+    @Column(length = 30)
+    private String cwe;
+
+    @Column(name = "fecha_publicacion")
+    private LocalDateTime fechaPublicacion;
+
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
+
+    @Column(name = "fecha_sincronizacion", nullable = false)
+    private LocalDateTime fechaSincronizacion = LocalDateTime.now();
+
+    public Cve() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCodigoCve() {
+        return codigoCve;
+    }
+
+    public void setCodigoCve(String codigoCve) {
+        this.codigoCve = codigoCve;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public BigDecimal getPuntajeCvss() {
+        return puntajeCvss;
+    }
+
+    public void setPuntajeCvss(BigDecimal puntajeCvss) {
+        this.puntajeCvss = puntajeCvss;
+    }
+
+    public String getSeveridad() {
+        return severidad;
+    }
+
+    public void setSeveridad(String severidad) {
+        this.severidad = severidad;
+    }
+
+    public String getCwe() {
+        return cwe;
+    }
+
+    public void setCwe(String cwe) {
+        this.cwe = cwe;
+    }
+
+    public LocalDateTime getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
+    }
+
+    public LocalDateTime getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(LocalDateTime fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    public LocalDateTime getFechaSincronizacion() {
+        return fechaSincronizacion;
+    }
+
+    public void setFechaSincronizacion(LocalDateTime fechaSincronizacion) {
+        this.fechaSincronizacion = fechaSincronizacion;
+    }
+}
