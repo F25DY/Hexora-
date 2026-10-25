@@ -29,6 +29,9 @@ public class Cve {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @Column(name = "descripcion_es", columnDefinition = "TEXT")
+    private String descripcionEs;
+
     @Column(name = "puntaje_cvss", precision = 3, scale = 1)
     private BigDecimal puntajeCvss;
 
@@ -72,6 +75,14 @@ public class Cve {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getDescripcionEs() {
+        return descripcionEs;
+    }
+
+    public void setDescripcionEs(String descripcionEs) {
+        this.descripcionEs = descripcionEs;
     }
 
     public BigDecimal getPuntajeCvss() {

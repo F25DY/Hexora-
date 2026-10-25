@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
@@ -31,12 +32,15 @@ public class CveService {
     private static final Pattern PATRON_CVE = Pattern.compile("^CVE-\\d{4}-\\d{4,}$", Pattern.CASE_INSENSITIVE);
 
     private final CveRepository cveRepository;
+    private final TraductorService traductorService;
     private final RestClient restClient;
     private final String apiKey;
 
     // NVD_API_KEY sale del archivo .env. Si está vacía, igual funciona, pero con menos consultas permitidas.
-    public CveService(CveRepository cveRepository, @Value("${NVD_API_KEY:}") String apiKey) {
+    public CveService(CveRepository cveRepository, TraductorService traductorService,
+            @Value("${NVD_API_KEY:}") String apiKey) {
         this.cveRepository = cveRepository;
+        this.traductorService = traductorService;
         this.apiKey = apiKey;
         this.restClient = RestClient.builder().baseUrl(URL_NVD).build();
     }
@@ -55,6 +59,27 @@ public class CveService {
 
         traerDesdeNvd(q);
         return cveRepository.findTop10ByCodigoCveContainingIgnoreCaseOrDescripcionContainingIgnoreCase(q, q);
+    }
+
+    /**
+     * Devuelve el CVE con su descripción en español. Si todavía no estaba traducida,
+     * la traduce ahora y la guarda, así cada CVE se traduce una sola vez.
+     * Si la traducción falla, devuelve el CVE igual (solo con la descripción en inglés).
+     */
+    public Optional<Cve> obtenerConTraduccion(String codigo) {
+        Optional<Cve> encontrado = cveRepository.findByCodigoCve(codigo);
+        if (encontrado.isEmpty()) {
+            return encontrado;
+        }
+
+        Cve cve = encontrado.get();
+        if (cve.getDescripcionEs() == null && cve.getDescripcion() != null) {
+            traductorService.aEspanol(cve.getDescripcion()).ifPresent(traduccion -> {
+                cve.setDescripcionEs(traduccion);
+                cveRepository.save(cve);
+            });
+        }
+        return Optional.of(cve);
     }
 
     // ---------------------------------------------------------------

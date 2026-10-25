@@ -2,7 +2,9 @@ package com.hexora.hexora.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +29,14 @@ public class CveController {
     @GetMapping("/buscar")
     public List<Cve> buscar(@RequestParam("q") String q) {
         return cveService.buscar(q);
+    }
+
+    // Devuelve el CVE con su descripción en español (la traduce la primera vez).
+    // Ejemplo: http://localhost:8080/api/cves/CVE-2021-44228/traduccion
+    @GetMapping("/{codigo}/traduccion")
+    public ResponseEntity<Cve> traduccion(@PathVariable("codigo") String codigo) {
+        return cveService.obtenerConTraduccion(codigo)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
