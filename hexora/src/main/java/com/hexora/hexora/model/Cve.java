@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 /**
  * Copia local de un CVE traído desde la API del NVD.
- * Representa la tabla "cve" creada en V3__crear_tabla_cve.sql.
+ * Representa la tabla "cve" (V3, V4 y V5 de las migraciones).
  */
 @Entity
 @Table(name = "cve")
@@ -49,6 +49,26 @@ public class Cve {
 
     @Column(name = "fecha_sincronizacion", nullable = false)
     private LocalDateTime fechaSincronizacion = LocalDateTime.now();
+
+    // ---- Datos para sugerir valores en el formulario (V5) ----
+
+    @Column(name = "impacto_confidencialidad", length = 15)
+    private String impactoConfidencialidad;
+
+    @Column(name = "impacto_integridad", length = 15)
+    private String impactoIntegridad;
+
+    @Column(name = "impacto_disponibilidad", length = 15)
+    private String impactoDisponibilidad;
+
+    @Column(name = "puntaje_explotabilidad", precision = 3, scale = 1)
+    private BigDecimal puntajeExplotabilidad;
+
+    @Column(name = "version_cvss", length = 10)
+    private String versionCvss;
+
+    @Column(name = "referencias_parche", columnDefinition = "TEXT")
+    private String referenciasParche;
 
     public Cve() {
     }
@@ -131,5 +151,53 @@ public class Cve {
 
     public void setFechaSincronizacion(LocalDateTime fechaSincronizacion) {
         this.fechaSincronizacion = fechaSincronizacion;
+    }
+
+    public String getImpactoConfidencialidad() {
+        return impactoConfidencialidad;
+    }
+
+    public void setImpactoConfidencialidad(String impactoConfidencialidad) {
+        this.impactoConfidencialidad = impactoConfidencialidad;
+    }
+
+    public String getImpactoIntegridad() {
+        return impactoIntegridad;
+    }
+
+    public void setImpactoIntegridad(String impactoIntegridad) {
+        this.impactoIntegridad = impactoIntegridad;
+    }
+
+    public String getImpactoDisponibilidad() {
+        return impactoDisponibilidad;
+    }
+
+    public void setImpactoDisponibilidad(String impactoDisponibilidad) {
+        this.impactoDisponibilidad = impactoDisponibilidad;
+    }
+
+    public BigDecimal getPuntajeExplotabilidad() {
+        return puntajeExplotabilidad;
+    }
+
+    public void setPuntajeExplotabilidad(BigDecimal puntajeExplotabilidad) {
+        this.puntajeExplotabilidad = puntajeExplotabilidad;
+    }
+
+    public String getVersionCvss() {
+        return versionCvss;
+    }
+
+    public void setVersionCvss(String versionCvss) {
+        this.versionCvss = versionCvss;
+    }
+
+    public String getReferenciasParche() {
+        return referenciasParche;
+    }
+
+    public void setReferenciasParche(String referenciasParche) {
+        this.referenciasParche = referenciasParche;
     }
 }

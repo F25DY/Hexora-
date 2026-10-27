@@ -14,7 +14,6 @@ import com.hexora.hexora.service.CveService;
 
 /**
  * Ventanilla de la app para buscar CVEs.
- * Ejemplo: http://localhost:8080/api/cves/buscar?q=CVE-2021-44228
  */
 @RestController
 @RequestMapping("/api/cves")
@@ -26,16 +25,18 @@ public class CveController {
         this.cveService = cveService;
     }
 
+    // Ejemplo: http://localhost:8080/api/cves/buscar?q=CVE-2021-44228
     @GetMapping("/buscar")
     public List<Cve> buscar(@RequestParam("q") String q) {
         return cveService.buscar(q);
     }
 
-    // Devuelve el CVE con su descripción en español (la traduce la primera vez).
-    // Ejemplo: http://localhost:8080/api/cves/CVE-2021-44228/traduccion
-    @GetMapping("/{codigo}/traduccion")
-    public ResponseEntity<Cve> traduccion(@PathVariable("codigo") String codigo) {
-        return cveService.obtenerConTraduccion(codigo)
+    // Devuelve el CVE completo: con la descripción en español y los datos para rellenar
+    // las casillas de riesgo. Lo que falte lo completa la primera vez que se pide.
+    // Ejemplo: http://localhost:8080/api/cves/CVE-2021-44228/detalle
+    @GetMapping("/{codigo}/detalle")
+    public ResponseEntity<Cve> detalle(@PathVariable("codigo") String codigo) {
+        return cveService.obtenerDetalle(codigo)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
