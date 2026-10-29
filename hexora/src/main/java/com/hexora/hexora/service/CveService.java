@@ -206,15 +206,15 @@ public class CveService {
     // Métricas CVSS: puntaje, severidad, impactos y explotabilidad
     // ---------------------------------------------------------------
 
-    private void leerMetricas(Map<String, Object> datos, Cve cve) {
+    void leerMetricas(Map<String, Object> datos, Cve cve) {
         Map<String, Object> metricas = mapa(datos.get("metrics"));
         leerPuntaje(metricas, cve);
         leerImpactos(metricas, cve);
     }
 
-    // Usa el puntaje CVSS más moderno que exista (4.0, 3.1, 3.0 o 2.0).
+    // Prioriza la misma versión que los impactos para no mezclar evaluaciones.
     private void leerPuntaje(Map<String, Object> metricas, Cve cve) {
-        String[] versiones = { "cvssMetricV40", "cvssMetricV31", "cvssMetricV30", "cvssMetricV2" };
+        String[] versiones = { "cvssMetricV31", "cvssMetricV30", "cvssMetricV2", "cvssMetricV40" };
 
         for (String version : versiones) {
             Map<String, Object> elegida = elegirEntrada(lista(metricas.get(version)));
