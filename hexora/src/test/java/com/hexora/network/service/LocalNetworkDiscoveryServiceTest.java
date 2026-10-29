@@ -60,6 +60,16 @@ class LocalNetworkDiscoveryServiceTest {
     }
 
     @Test
+    void selectsOnlyPrivateLanAddressesWithinTheSupportedPrefixRange() throws Exception {
+        var selected = LocalNetworkDiscoveryService.parseLanInterfaceAddress("LAN=192.168.1.20|24\n");
+
+        assertEquals("192.168.1.20", selected.address().getHostAddress());
+        assertEquals(24, selected.prefixLength());
+        assertNull(LocalNetworkDiscoveryService.parseLanInterfaceAddress("LAN=172.21.105.118|32\n"));
+        assertNull(LocalNetworkDiscoveryService.parseLanInterfaceAddress("LAN=8.8.8.8|24\n"));
+    }
+
+    @Test
     void includesTheLocalComputerWithItsNetworkInterfaceMacAddress() throws Exception {
         Inet4Address localAddress = (Inet4Address) InetAddress.getByName("192.168.1.20");
 

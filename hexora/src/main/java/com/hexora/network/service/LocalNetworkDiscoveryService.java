@@ -416,32 +416,84 @@ public class LocalNetworkDiscoveryService {
     }
 
     private LocalSubnet findDefaultPrivateSubnet() {
-        Inet4Address localAddress;
-        try {
-            localAddress = getDefaultRouteAddress();
-        } catch (NetworkDiscoveryException exception) {
-            throw new NetworkDiscoveryException("No existe una red activa para realizar el escaneo.", exception);
-        }
-        if (!isPrivateIpv4(localAddress)) {
-            throw new NetworkDiscoveryException(
-                "No existe una red activa para realizar el escaneo.");
+        LanInterfaceAddress selected = findPreferredPhysicalLanAddress();
+        return createSubnet(selected.address(), selected.prefixLength());
+    }
+
+    private LanInterfaceAddress findPreferredPhysicalLanAddress() {
+        String systemRoot = System.getenv("SystemRoot");
+        if (systemRoot == null || systemRoot.isBlank()) {
+            throw new NetworkDiscoveryException("Windows PowerShell could not be located");
         }
 
+        String command = "$routes = Get-NetRoute -AddressFamily IPv4 -DestinationPrefix '0.0.0.0/0' "
+            + "-ErrorAction SilentlyContinue; "
+            + "$candidates = foreach ($address in (Get-NetIPAddress -AddressFamily IPv4 "
+            + "-ErrorAction SilentlyContinue | Where-Object AddressState -eq 'Preferred')) { "
+            + "$adapter = Get-NetAdapter -InterfaceIndex $address.InterfaceIndex -ErrorAction SilentlyContinue; "
+            + "$iface = Get-NetIPInterface -InterfaceIndex $address.InterfaceIndex -AddressFamily IPv4 "
+            + "-ErrorAction SilentlyContinue; "
+            + "$private = $address.IPAddress -match '^(10\\.|172\\.(1[6-9]|2[0-9]|3[01])\\.|192\\.168\\.)'; "
+            + "if ($adapter.HardwareInterface -and $adapter.Status -eq 'Up' -and $private "
+            + "-and $address.PrefixLength -ge 22 -and $address.PrefixLength -le 30) { "
+            + "$route = $routes | Where-Object InterfaceIndex -eq $address.InterfaceIndex "
+            + "| Sort-Object RouteMetric | Select-Object -First 1; "
+            + "$metric = if ($null -ne $route) { $route.RouteMetric + $iface.InterfaceMetric } "
+            + "else { [int]::MaxValue }; "
+            + "[PSCustomObject]@{IPAddress=$address.IPAddress; PrefixLength=$address.PrefixLength; "
+            + "HasDefaultRoute=($null -ne $route); Metric=$metric} } }; "
+            + "$selected = $candidates | Sort-Object @{Expression={ $_.HasDefaultRoute }; Descending=$true}, "
+            + "@{Expression={ $_.Metric }; Ascending=$true} | Select-Object -First 1; "
+            + "if ($selected) { 'LAN=' + $selected.IPAddress + '|' + $selected.PrefixLength }";
+
         try {
-            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localAddress);
-            if (networkInterface == null || !networkInterface.isUp()) {
-                throw new NetworkDiscoveryException("No existe una red activa para realizar el escaneo.");
+            Process process = new ProcessBuilder(
+                Path.of(systemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe").toString(),
+                "-NoProfile", "-NonInteractive", "-Command", command)
+                .redirectErrorStream(true)
+                .start();
+            if (!process.waitFor(COMMAND_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+                process.destroyForcibly();
+                throw new NetworkDiscoveryException("Windows LAN interface lookup timed out");
             }
-            return networkInterface.getInterfaceAddresses().stream()
-                .filter(address -> address.getAddress().equals(localAddress))
-                .filter(address -> address.getAddress() instanceof Inet4Address)
-                .map(address -> createSubnet(localAddress, address.getNetworkPrefixLength()))
-                .findFirst()
-                .orElseThrow(() -> new NetworkDiscoveryException(
-                    "No existe una red activa para realizar el escaneo."));
-        } catch (SocketException exception) {
-            throw new NetworkDiscoveryException("No existe una red activa para realizar el escaneo.", exception);
+            String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            if (process.exitValue() != 0) {
+                throw new NetworkDiscoveryException("Windows could not select an active physical LAN interface");
+            }
+            LanInterfaceAddress selected = parseLanInterfaceAddress(output);
+            if (selected == null) {
+                throw new NetworkDiscoveryException(
+                    "No active physical private IPv4 LAN interface with a /22 to /30 prefix was found");
+            }
+            return selected;
+        } catch (IOException exception) {
+            throw new NetworkDiscoveryException("Windows LAN interface lookup failed", exception);
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            throw new NetworkDiscoveryException("Windows LAN interface lookup was interrupted", exception);
         }
+    }
+
+    static LanInterfaceAddress parseLanInterfaceAddress(String output) {
+        for (String line : output.lines().toList()) {
+            if (!line.startsWith("LAN=")) {
+                continue;
+            }
+            String[] values = line.substring("LAN=".length()).split("\\|", -1);
+            if (values.length != 2) {
+                continue;
+            }
+            try {
+                Inet4Address address = parseIpv4(values[0]);
+                int prefixLength = Integer.parseInt(values[1]);
+                if (isPrivateIpv4(address) && prefixLength >= 22 && prefixLength <= 30) {
+                    return new LanInterfaceAddress(address, (short) prefixLength);
+                }
+            } catch (UnknownHostException | NumberFormatException exception) {
+                LOGGER.debug("Ignoring invalid LAN interface selection from Windows", exception);
+            }
+        }
+        return null;
     }
 
     public void requireActiveNetwork() {
@@ -629,5 +681,8 @@ public class LocalNetworkDiscoveryService {
             long value = ipv4ToLong(candidate);
             return value > network && value < broadcast;
         }
+    }
+
+    record LanInterfaceAddress(Inet4Address address, short prefixLength) {
     }
 }
