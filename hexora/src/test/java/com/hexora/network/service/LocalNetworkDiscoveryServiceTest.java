@@ -146,6 +146,28 @@ class LocalNetworkDiscoveryServiceTest {
     }
 
     @Test
+    void acceptsActiveWindowsNeighborStatesCaseInsensitively() {
+        assertTrue(LocalNetworkDiscoveryService.isActiveNeighborState("ARP (vecino Reachable)"));
+        assertTrue(LocalNetworkDiscoveryService.isActiveNeighborState("ARP (vecino delay)"));
+        assertTrue(LocalNetworkDiscoveryService.isActiveNeighborState("ARP (vecino Probe)"));
+        assertTrue(!LocalNetworkDiscoveryService.isActiveNeighborState("ARP (vecino Stale)"));
+        assertTrue(!LocalNetworkDiscoveryService.isActiveNeighborState("ARP (vecino Unreachable)"));
+    }
+
+    @Test
+    void parsesOnlyDefaultGatewaysInsideTheCurrentSubnet() throws Exception {
+        Inet4Address localAddress = (Inet4Address) InetAddress.getByName("192.168.1.20");
+        var subnet = LocalNetworkDiscoveryService.createSubnet(localAddress, (short) 24);
+
+        assertEquals("192.168.1.1", LocalNetworkDiscoveryService.parseGatewayAddress(
+            "GATEWAY=192.168.1.1\n", subnet));
+        assertNull(LocalNetworkDiscoveryService.parseGatewayAddress(
+            "GATEWAY=192.168.2.1\n", subnet));
+        assertNull(LocalNetworkDiscoveryService.parseGatewayAddress(
+            "GATEWAY=not-an-ip\n", subnet));
+    }
+
+    @Test
     void acceptsSsdpResponsesFromDevicesInsideTheCurrentSubnet() throws Exception {
         Inet4Address localAddress = (Inet4Address) InetAddress.getByName("172.20.10.4");
         var subnet = LocalNetworkDiscoveryService.createSubnet(localAddress, (short) 28);

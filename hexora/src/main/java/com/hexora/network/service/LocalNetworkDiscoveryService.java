@@ -96,7 +96,12 @@ public class LocalNetworkDiscoveryService {
             Process process;
             ExecutorService outputReader = Executors.newSingleThreadExecutor();
             try {
-                String command = "Get-NetNeighbor -AddressFamily IPv4 -InterfaceIndex "
+                String command = "$gateway = Get-NetRoute -AddressFamily IPv4 -DestinationPrefix '0.0.0.0/0' "
+                    + "-InterfaceIndex " + networkInterface.getIndex()
+                    + " -ErrorAction SilentlyContinue | Sort-Object RouteMetric, InterfaceMetric "
+                    + "| Select-Object -First 1 -ExpandProperty NextHop; "
+                    + "if ($gateway) { 'GATEWAY=' + $gateway }; "
+                    + "Get-NetNeighbor -AddressFamily IPv4 -InterfaceIndex "
                     + networkInterface.getIndex() + " | "
                     + "ForEach-Object { $_.IPAddress + ' ' + $_.LinkLayerAddress + ' ' + $_.State }";
                 String systemRoot = System.getenv("SystemRoot");
@@ -127,18 +132,27 @@ public class LocalNetworkDiscoveryService {
                 );
                 for (NeighborEntry entry : parseNeighborEntries(output, subnet)) {
                     neighborEntries.put(entry.address(), entry);
-                    if ("ARP (vecino Reachable)".equals(entry.detectionMethod())) {
-                        currentDevices.put(entry.address(), entry);
+                    if (isActiveNeighborState(entry.detectionMethod())) {
+                        mergeDiscoveredDevice(currentDevices, entry);
                     }
                 }
                 for (String address : responsiveAddresses) {
                     NeighborEntry arpEntry = neighborEntries.get(address);
-                    currentDevices.put(address, new NeighborEntry(
+                    mergeDiscoveredDevice(currentDevices, new NeighborEntry(
                         address,
                         arpEntry == null ? null : arpEntry.macAddress(),
                         arpEntry == null || arpEntry.macAddress() == null
                             ? "ICMP"
                             : "ICMP + ARP"
+                    ));
+                }
+                String gatewayAddress = parseGatewayAddress(output, subnet);
+                if (gatewayAddress != null) {
+                    NeighborEntry gatewayNeighbor = neighborEntries.get(gatewayAddress);
+                    mergeDiscoveredDevice(currentDevices, new NeighborEntry(
+                        gatewayAddress,
+                        gatewayNeighbor == null ? null : gatewayNeighbor.macAddress(),
+                        "Puerta de enlace"
                     ));
                 }
                 try {
@@ -351,6 +365,35 @@ public class LocalNetworkDiscoveryService {
                 ? discovered.detectionMethod()
                 : current.detectionMethod() + " + " + discovered.detectionMethod()
         ));
+    }
+
+    static boolean isActiveNeighborState(String detectionMethod) {
+        if (detectionMethod == null || !detectionMethod.startsWith("ARP (vecino ")
+            || !detectionMethod.endsWith(")")) {
+            return false;
+        }
+        String state = detectionMethod.substring("ARP (vecino ".length(), detectionMethod.length() - 1);
+        return state.equalsIgnoreCase("Reachable")
+            || state.equalsIgnoreCase("Delay")
+            || state.equalsIgnoreCase("Probe");
+    }
+
+    static String parseGatewayAddress(String output, LocalSubnet subnet) {
+        for (String line : output.lines().toList()) {
+            if (!line.startsWith("GATEWAY=")) {
+                continue;
+            }
+            String address = line.substring("GATEWAY=".length()).trim();
+            try {
+                Inet4Address gateway = parseIpv4(address);
+                if (subnet.contains(gateway)) {
+                    return gateway.getHostAddress();
+                }
+            } catch (UnknownHostException exception) {
+                LOGGER.debug("Ignoring invalid default gateway address from Windows", exception);
+            }
+        }
+        return null;
     }
 
     static NeighborEntry parseSsdpResponse(
