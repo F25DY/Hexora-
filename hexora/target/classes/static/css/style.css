@@ -635,6 +635,18 @@ main {
   gap: 16px;
 }
 
+.dashboard-scan-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.dashboard-scan-action .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .contenedor-notificaciones {
   width: 54px;
   height: 54px;
@@ -888,6 +900,15 @@ main {
 
   .seccion-acciones .contenedor-botones {
     flex-direction: column;
+  }
+
+  .dashboard-scan-action {
+    justify-content: stretch;
+  }
+
+  .dashboard-scan-action .btn {
+    justify-content: center;
+    width: 100%;
   }
 }
 

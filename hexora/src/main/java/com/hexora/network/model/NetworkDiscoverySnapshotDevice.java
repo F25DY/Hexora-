@@ -1,0 +1,139 @@
+package com.hexora.network.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "network_discovery_snapshot_device")
+public class NetworkDiscoverySnapshotDevice {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "snapshot_id", nullable = false)
+    private NetworkDiscoverySnapshot snapshot;
+
+    @Column(nullable = false, length = 45)
+    private String address;
+
+    @Column(name = "mac_address", length = 17)
+    private String macAddress;
+
+    @Column(name = "host_name", nullable = false, length = 255)
+    private String hostName;
+
+    @Column(name = "detection_method", nullable = false, length = 40)
+    private String detectionMethod;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private NetworkHostStatus status;
+
+    @Column(nullable = false)
+    private boolean registered;
+
+    @Column(name = "first_detected_at", nullable = false)
+    private LocalDateTime firstDetectedAt;
+
+    @Column(name = "last_detected_at", nullable = false)
+    private LocalDateTime lastDetectedAt;
+
+    @Column(name = "consecutive_misses", nullable = false)
+    private int consecutiveMisses;
+
+    public Long getId() {
+        return id;
+    }
+
+    public NetworkDiscoverySnapshot getSnapshot() {
+        return snapshot;
+    }
+
+    public void setSnapshot(NetworkDiscoverySnapshot snapshot) {
+        this.snapshot = snapshot;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getDetectionMethod() {
+        return detectionMethod;
+    }
+
+    public void setDetectionMethod(String detectionMethod) {
+        this.detectionMethod = detectionMethod;
+    }
+
+    public NetworkHostStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(NetworkHostStatus status) {
+        this.status = status;
+    }
+
+    public boolean isRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
+    }
+
+    public LocalDateTime getFirstDetectedAt() {
+        return firstDetectedAt;
+    }
+
+    public void setFirstDetectedAt(LocalDateTime firstDetectedAt) {
+        this.firstDetectedAt = firstDetectedAt;
+    }
+
+    public LocalDateTime getLastDetectedAt() {
+        return lastDetectedAt;
+    }
+
+    public void setLastDetectedAt(LocalDateTime lastDetectedAt) {
+        this.lastDetectedAt = lastDetectedAt;
+    }
+
+    public int getConsecutiveMisses() {
+        return consecutiveMisses;
+    }
+
+    public void setConsecutiveMisses(int consecutiveMisses) {
+        this.consecutiveMisses = consecutiveMisses;
+    }
+}

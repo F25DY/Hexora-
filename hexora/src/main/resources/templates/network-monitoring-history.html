@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexora - Historial de detecciones</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/network-monitoring.css(v=7)}">
+</head>
+<body class="network-page">
+<main class="network-shell">
+    <header class="network-header">
+        <a class="network-brand" th:href="@{/dashboard}">
+            <img th:src="@{/imagen/logo.png}" width="40" height="40" alt="Hexora">
+            <span>Hexora</span>
+        </a>
+        <div class="network-heading">
+            <p class="network-eyebrow">INFRAESTRUCTURA</p>
+            <h1>Historial de detecciones</h1>
+            <p class="network-subtitle">Resultados guardados cada vez que detectas dispositivos en la red.</p>
+        </div>
+        <div class="network-header-actions">
+            <a class="network-action-button" th:href="@{/network-monitoring}">Volver a dispositivos actuales</a>
+        </div>
+    </header>
+
+    <p id="discovery-history-message" class="network-card network-message" role="status" aria-live="polite">
+        Cargando historial...
+    </p>
+    <div id="discovery-history-list" class="discovery-history-list"></div>
+</main>
+<script th:src="@{/js/network-monitoring-history.js(v=1)}" defer></script>
+</body>
+</html>

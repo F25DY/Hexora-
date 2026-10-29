@@ -25,6 +25,11 @@
                     </a>
                 </li>
                 <li>
+                    <a th:href="@{/network-monitoring}" class="enlace-menu">
+                        <i class="fa-solid fa-network-wired"></i> Escaneo de red
+                    </a>
+                </li>
+                <li>
                     <a th:href="@{/proyectos}" class="enlace-menu">
                         <i class="fa-solid fa-folder-closed"></i> Proyectos
                     </a>
@@ -58,6 +63,13 @@
                 </div>
             </div>
         </header>
+
+        <div class="dashboard-scan-action">
+            <a th:href="@{/network-monitoring}" class="btn btn-primario">
+                <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+                Escanear red WiFi
+            </a>
+        </div>
 
         <section class="seccion-metricas">
             <article class="tarjeta-blanca">
