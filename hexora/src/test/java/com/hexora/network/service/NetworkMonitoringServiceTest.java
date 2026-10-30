@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -393,5 +394,48 @@ class NetworkMonitoringServiceTest {
         verify(scanRepository).deleteAllByIdInBatch(List.of(12L));
         verify(hostRepository).save(host);
         assertEquals(NetworkHostStatus.UNKNOWN, host.getStatus());
+    }
+
+    @Test
+    void findGatewayDiscoversAndStoresGatewayWhenActiveGatewayIsFound() {
+        when(localNetworkDiscoveryService.findGatewayAddress()).thenReturn(Optional.of("192.168.1.1"));
+        when(detectedDeviceRepository.findByAddressIgnoreCase("192.168.1.1")).thenReturn(Optional.empty());
+        when(hostRepository.findAllByEnabledTrueOrderByDisplayNameAsc()).thenReturn(List.of());
+        when(detectedDeviceRepository.save(any(NetworkDetectedDevice.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        var gatewayOpt = service.findGateway();
+
+        assertTrue(gatewayOpt.isPresent());
+        var gateway = gatewayOpt.get();
+        assertEquals("192.168.1.1", gateway.address());
+        assertTrue(gateway.gateway());
+        assertEquals("192.168.1.1", gateway.gatewayAddress());
+        assertEquals(NetworkHostStatus.ONLINE, gateway.status());
+        assertTrue(gateway.detectionMethod().contains("Puerta de enlace"));
+    }
+
+    @Test
+    void findGatewayFallsBackToStoredGatewayWhenNoActiveGatewayResolved() {
+        NetworkDetectedDevice storedGateway = new NetworkDetectedDevice();
+        storedGateway.setAddress("192.168.1.254");
+        storedGateway.setHostName("stored-router");
+        storedGateway.setGateway(true);
+        storedGateway.setGatewayAddress("192.168.1.254");
+        storedGateway.setDetectionMethod("Puerta de enlace");
+        storedGateway.setStatus(NetworkHostStatus.ONLINE);
+        storedGateway.setFirstDetectedAt(java.time.LocalDateTime.of(2026, 10, 27, 10, 0));
+        storedGateway.setLastDetectedAt(java.time.LocalDateTime.of(2026, 10, 27, 12, 0));
+
+        when(localNetworkDiscoveryService.findGatewayAddress()).thenReturn(Optional.empty());
+        when(detectedDeviceRepository.findFirstByGatewayTrueOrderByLastDetectedAtDesc()).thenReturn(Optional.of(storedGateway));
+        when(hostRepository.findAllByEnabledTrueOrderByDisplayNameAsc()).thenReturn(List.of());
+
+        var gatewayOpt = service.findGateway();
+
+        assertTrue(gatewayOpt.isPresent());
+        var gateway = gatewayOpt.get();
+        assertEquals("192.168.1.254", gateway.address());
+        assertTrue(gateway.gateway());
+        assertEquals("192.168.1.254", gateway.gatewayAddress());
     }
 }

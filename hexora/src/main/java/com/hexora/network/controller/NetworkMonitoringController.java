@@ -200,6 +200,14 @@ public class NetworkMonitoringController {
         return monitoringService.getDetectedDevices();
     }
 
+    @GetMapping("/gateway")
+    public ResponseEntity<NetworkDetectedDeviceDto> gateway(HttpServletRequest httpRequest) {
+        logEndpoint("GET", httpRequest);
+        return monitoringService.findGateway()
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.noContent().build());
+    }
+
     @GetMapping("/discoveries/latest")
     public ResponseEntity<NetworkDiscoverySnapshotDto> latestDiscovery(HttpServletRequest httpRequest) {
         logEndpoint("GET", httpRequest);

@@ -12,4 +12,8 @@ public interface NetworkDetectedDeviceRepository extends JpaRepository<NetworkDe
     Optional<NetworkDetectedDevice> findByAddressIgnoreCase(String address);
 
     List<NetworkDetectedDevice> findAllByOrderByLastDetectedAtDesc();
+
+    List<NetworkDetectedDevice> findAllByGatewayTrueOrderByLastDetectedAtDesc();
+
+    Optional<NetworkDetectedDevice> findFirstByGatewayTrueOrderByLastDetectedAtDesc();
 }

@@ -228,6 +228,8 @@ public class NetworkMonitoringService {
             savedDevice.setFirstDetectedAt(device.firstDetectedAt());
             savedDevice.setLastDetectedAt(device.lastDetectedAt());
             savedDevice.setConsecutiveMisses(device.consecutiveMisses());
+            savedDevice.setGateway(device.gateway());
+            savedDevice.setGatewayAddress(device.gatewayAddress());
             snapshot.addDevice(savedDevice);
         }
         discoverySnapshotRepository.save(snapshot);
@@ -245,7 +247,9 @@ public class NetworkMonitoringService {
                 device.isRegistered(),
                 device.getFirstDetectedAt(),
                 device.getLastDetectedAt(),
-                device.getConsecutiveMisses()
+                device.getConsecutiveMisses(),
+                device.isGateway(),
+                device.getGatewayAddress()
             ))
             .toList();
         Instant observedAt = snapshot.getObservedAt().toInstant(ZoneOffset.UTC);
@@ -266,16 +270,23 @@ public class NetworkMonitoringService {
             .collect(Collectors.toMap(host -> host.getAddress().toLowerCase(), host -> host, (left, right) -> left));
         Set<String> observedAddresses = new HashSet<>();
         boolean changed = false;
+        String defaultGateway = snapshot.gatewayAddress();
 
         for (NeighborEntry entry : snapshot.devices()) {
             observedAddresses.add(entry.address().toLowerCase());
             NetworkDetectedDevice device = findDetectedDevice(entry);
+            boolean isGateway = (defaultGateway != null && defaultGateway.equalsIgnoreCase(entry.address()))
+                || (entry.detectionMethod() != null && entry.detectionMethod().contains("Puerta de enlace"));
+            String deviceGatewayAddress = isGateway ? entry.address() : defaultGateway;
+
             if (device == null) {
                 device = new NetworkDetectedDevice();
                 device.setAddress(entry.address());
                 device.setMacAddress(entry.macAddress());
                 device.setSubnet(snapshot.subnet());
                 device.setHostName(resolveDetectedName(entry.address(), registeredHosts));
+                device.setGateway(isGateway);
+                device.setGatewayAddress(deviceGatewayAddress);
                 if (!java.util.Objects.equals(device.getDetectionMethod(), entry.detectionMethod())) {
                     device.setDetectionMethod(entry.detectionMethod());
                     changed = true;
@@ -287,9 +298,18 @@ public class NetworkMonitoringService {
                 device.setLastStatusChangedAt(observedAt);
                 device = detectedDeviceRepository.save(device);
                 addDiscoveryEvent(device, NetworkEventType.DEVICE_DETECTED,
-                    "Nuevo dispositivo detectado: " + entry.address());
+                    (isGateway ? "Puerta de enlace detectada: " : "Nuevo dispositivo detectado: ") + entry.address());
                 changed = true;
                 continue;
+            }
+
+            if (isGateway && !device.isGateway()) {
+                device.setGateway(true);
+                changed = true;
+            }
+            if (deviceGatewayAddress != null && !java.util.Objects.equals(device.getGatewayAddress(), deviceGatewayAddress)) {
+                device.setGatewayAddress(deviceGatewayAddress);
+                changed = true;
             }
 
             if (!device.getAddress().equalsIgnoreCase(entry.address())) {
@@ -425,9 +445,77 @@ public class NetworkMonitoringService {
                 registeredAddresses.contains(device.getAddress().toLowerCase()),
                 device.getFirstDetectedAt(),
                 device.getLastDetectedAt(),
-                device.getConsecutiveMisses()
+                device.getConsecutiveMisses(),
+                device.isGateway(),
+                device.getGatewayAddress()
             ))
             .toList();
+    }
+
+    @Transactional
+    public Optional<NetworkDetectedDeviceDto> findGateway() {
+        Optional<String> activeGatewayAddress = localNetworkDiscoveryService.findGatewayAddress();
+        LocalDateTime observedAt = now();
+        if (activeGatewayAddress.isPresent()) {
+            String address = activeGatewayAddress.get();
+            NetworkDetectedDevice device = detectedDeviceRepository.findByAddressIgnoreCase(address)
+                .orElseGet(() -> {
+                    NetworkDetectedDevice created = new NetworkDetectedDevice();
+                    created.setAddress(address);
+                    created.setHostName(address);
+                    created.setSubnet("");
+                    created.setFirstDetectedAt(observedAt);
+                    created.setLastStatusChangedAt(observedAt);
+                    created.setConsecutiveMisses(0);
+                    return created;
+                });
+            device.setGateway(true);
+            device.setGatewayAddress(address);
+            device.setStatus(NetworkHostStatus.ONLINE);
+            device.setLastDetectedAt(observedAt);
+            if (device.getDetectionMethod() == null || device.getDetectionMethod().isBlank()
+                || "Sin respuesta actual".equals(device.getDetectionMethod())) {
+                device.setDetectionMethod("Puerta de enlace");
+            } else if (!device.getDetectionMethod().contains("Puerta de enlace")) {
+                device.setDetectionMethod(device.getDetectionMethod() + " + Puerta de enlace");
+            }
+            device = detectedDeviceRepository.save(device);
+            return Optional.of(toDetectedDeviceDto(device));
+        }
+
+        return detectedDeviceRepository.findFirstByGatewayTrueOrderByLastDetectedAtDesc()
+            .or(() -> detectedDeviceRepository.findAll().stream()
+                .filter(d -> d.isGateway() || (d.getDetectionMethod() != null && d.getDetectionMethod().contains("Puerta de enlace")))
+                .findFirst()
+                .map(d -> {
+                    if (!d.isGateway() || d.getGatewayAddress() == null) {
+                        d.setGateway(true);
+                        d.setGatewayAddress(d.getAddress());
+                        return detectedDeviceRepository.save(d);
+                    }
+                    return d;
+                }))
+            .map(this::toDetectedDeviceDto);
+    }
+
+    private NetworkDetectedDeviceDto toDetectedDeviceDto(NetworkDetectedDevice device) {
+        Set<String> registeredAddresses = hostRepository.findAllByEnabledTrueOrderByDisplayNameAsc().stream()
+            .map(host -> host.getAddress().toLowerCase())
+            .collect(Collectors.toSet());
+        return new NetworkDetectedDeviceDto(
+            device.getId(),
+            device.getHostName(),
+            device.getAddress(),
+            device.getMacAddress(),
+            device.getDetectionMethod(),
+            device.getStatus(),
+            registeredAddresses.contains(device.getAddress().toLowerCase()),
+            device.getFirstDetectedAt(),
+            device.getLastDetectedAt(),
+            device.getConsecutiveMisses(),
+            device.isGateway(),
+            device.getGatewayAddress()
+        );
     }
 
     @Transactional

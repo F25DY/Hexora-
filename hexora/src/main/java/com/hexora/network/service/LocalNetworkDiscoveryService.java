@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -77,6 +78,45 @@ public class LocalNetworkDiscoveryService {
             presence.connected(),
             presence.disconnected()
         );
+    }
+
+    public Optional<String> findGatewayAddress() {
+        if (!System.getProperty("os.name", "").toLowerCase(Locale.ROOT).contains("win")) {
+            return Optional.empty();
+        }
+        try {
+            LocalSubnet subnet = findDefaultPrivateSubnet();
+            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(subnet.address());
+            if (networkInterface == null || !networkInterface.isUp()) {
+                return Optional.empty();
+            }
+            String systemRoot = System.getenv("SystemRoot");
+            if (systemRoot == null || systemRoot.isBlank()) {
+                return Optional.empty();
+            }
+            String command = "$gateway = Get-NetRoute -AddressFamily IPv4 -DestinationPrefix '0.0.0.0/0' "
+                + "-InterfaceIndex " + networkInterface.getIndex()
+                + " -ErrorAction SilentlyContinue | Sort-Object RouteMetric, InterfaceMetric "
+                + "| Select-Object -First 1 -ExpandProperty NextHop; "
+                + "if ($gateway) { 'GATEWAY=' + $gateway }";
+            Process process = new ProcessBuilder(
+                Path.of(systemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe").toString(),
+                "-NoProfile", "-NonInteractive", "-Command", command)
+                .redirectErrorStream(true)
+                .start();
+            if (!process.waitFor(COMMAND_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+                process.destroyForcibly();
+                return Optional.empty();
+            }
+            String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            if (process.exitValue() != 0) {
+                return Optional.empty();
+            }
+            return Optional.ofNullable(parseGatewayAddress(output, subnet));
+        } catch (Exception exception) {
+            LOGGER.debug("Could not resolve default gateway address", exception);
+            return Optional.empty();
+        }
     }
 
     LocalNetworkSnapshot readCurrentNeighbors() {
@@ -174,7 +214,8 @@ public class LocalNetworkDiscoveryService {
                     Instant.now(),
                     currentDevices.values().stream()
                         .sorted(java.util.Comparator.comparing(NeighborEntry::address))
-                        .toList()
+                        .toList(),
+                    gatewayAddress
                 );
             } catch (IOException exception) {
                 throw new NetworkDiscoveryException(

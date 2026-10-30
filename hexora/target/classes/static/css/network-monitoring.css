@@ -588,6 +588,21 @@
     color: #8a5b00;
 }
 
+.gateway-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 168, 197, 0.12);
+    color: #007c91;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 12px;
+    margin-left: 6px;
+    vertical-align: middle;
+    border: 1px solid rgba(0, 168, 197, 0.25);
+}
+
 .chart-panel canvas {
     display: block;
     width: 100%;

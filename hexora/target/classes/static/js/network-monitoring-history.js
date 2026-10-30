@@ -29,10 +29,12 @@ function renderHistory(snapshots) {
                 const online = device.status === "ONLINE";
                 const state = online ? "Online" : "Offline";
                 const registration = device.registered ? "" : " · No registrado";
+                const isGateway = device.gateway === true || (device.detectionMethod && device.detectionMethod.includes("Puerta de enlace"));
+                const gatewayBadge = isGateway ? ' <span class="gateway-badge" title="Puerta de enlace predeterminada (Gateway)">🌐 Gateway</span>' : "";
                 return `<tr>
                     <td>${escapeHtml(device.address)}</td>
                     <td>${escapeHtml(device.macAddress || "No disponible")}</td>
-                    <td>${escapeHtml(device.name || device.address)}</td>
+                    <td>${escapeHtml(device.name || device.address)}${gatewayBadge}</td>
                     <td><span class="status-pill status-${online ? "online" : "offline"}">${state}${registration}</span></td>
                     <td>${escapeHtml(device.detectionMethod || "Sin respuesta actual")}</td>
                     <td>${escapeHtml(formatDate(device.lastDetectedAt))}</td>

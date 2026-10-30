@@ -34,7 +34,7 @@ public class NetworkDiscoverySnapshotDevice {
     @Column(name = "host_name", nullable = false, length = 255)
     private String hostName;
 
-    @Column(name = "detection_method", nullable = false, length = 40)
+    @Column(name = "detection_method", nullable = false, length = 255)
     private String detectionMethod;
 
     @Enumerated(EnumType.STRING)
@@ -52,6 +52,12 @@ public class NetworkDiscoverySnapshotDevice {
 
     @Column(name = "consecutive_misses", nullable = false)
     private int consecutiveMisses;
+
+    @Column(nullable = false)
+    private boolean gateway;
+
+    @Column(name = "gateway_address", length = 45)
+    private String gatewayAddress;
 
     public Long getId() {
         return id;
@@ -135,5 +141,21 @@ public class NetworkDiscoverySnapshotDevice {
 
     public void setConsecutiveMisses(int consecutiveMisses) {
         this.consecutiveMisses = consecutiveMisses;
+    }
+
+    public boolean isGateway() {
+        return gateway;
+    }
+
+    public void setGateway(boolean gateway) {
+        this.gateway = gateway;
+    }
+
+    public String getGatewayAddress() {
+        return gatewayAddress;
+    }
+
+    public void setGatewayAddress(String gatewayAddress) {
+        this.gatewayAddress = gatewayAddress;
     }
 }

@@ -59,6 +59,12 @@ class NetworkMonitoringWebTest {
     }
 
     @Test
+    void exposesTheGatewayEndpoint() throws Exception {
+        mockMvc.perform(get("/api/network/gateway"))
+            .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
     void exposesDiscoverySnapshotsAndTheLatestDetection() throws Exception {
         mockMvc.perform(get("/api/network/discoveries/history"))
             .andExpect(status().isOk())

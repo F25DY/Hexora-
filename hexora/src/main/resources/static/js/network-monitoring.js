@@ -92,11 +92,13 @@ function renderDetectedInventory(devices) {
             : status === "offline"
                 ? registered ? "🔴 Offline" : "🔴 Offline · No registrado"
                 : "🟡 No registrado";
+        const isGateway = device.gateway === true || (device.detectionMethod && device.detectionMethod.includes("Puerta de enlace"));
+        const gatewayBadge = isGateway ? ' <span class="gateway-badge" title="Puerta de enlace predeterminada (Gateway)">🌐 Gateway</span>' : "";
         const pillClass = status === "online" ? "online" : status === "offline" ? "offline" : "unregistered";
         return `<tr>
             <td>${escapeHtml(device.address)}</td>
             <td>${escapeHtml(device.macAddress || "No disponible")}</td>
-            <td>${escapeHtml(device.name || device.address)}</td>
+            <td>${escapeHtml(device.name || device.address)}${gatewayBadge}</td>
             <td><span class="status-pill status-${pillClass}">${stateLabel}</span></td>
             <td>${escapeHtml(device.detectionMethod || "Sin respuesta actual")}</td>
             <td>${escapeHtml(formatDate(device.lastDetectedAt))}</td>

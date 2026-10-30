@@ -27,7 +27,7 @@ public class NetworkDetectedDevice {
     @Column(name = "host_name", nullable = false, length = 255)
     private String hostName;
 
-    @Column(name = "detection_method", nullable = false, length = 40)
+    @Column(name = "detection_method", nullable = false, length = 255)
     private String detectionMethod = "Sin respuesta actual";
 
     @Column(nullable = false, length = 18)
@@ -48,6 +48,12 @@ public class NetworkDetectedDevice {
 
     @Column(name = "last_status_changed_at", nullable = false)
     private LocalDateTime lastStatusChangedAt;
+
+    @Column(nullable = false)
+    private boolean gateway;
+
+    @Column(name = "gateway_address", length = 45)
+    private String gatewayAddress;
 
     public Long getId() {
         return id;
@@ -131,5 +137,21 @@ public class NetworkDetectedDevice {
 
     public void setLastStatusChangedAt(LocalDateTime lastStatusChangedAt) {
         this.lastStatusChangedAt = lastStatusChangedAt;
+    }
+
+    public boolean isGateway() {
+        return gateway;
+    }
+
+    public void setGateway(boolean gateway) {
+        this.gateway = gateway;
+    }
+
+    public String getGatewayAddress() {
+        return gatewayAddress;
+    }
+
+    public void setGatewayAddress(String gatewayAddress) {
+        this.gatewayAddress = gatewayAddress;
     }
 }

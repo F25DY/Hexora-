@@ -7,8 +7,18 @@ record LocalNetworkSnapshot(
     String subnet,
     String source,
     Instant observedAt,
-    List<NeighborEntry> devices
+    List<NeighborEntry> devices,
+    String gatewayAddress
 ) {
+
+    LocalNetworkSnapshot(
+        String subnet,
+        String source,
+        Instant observedAt,
+        List<NeighborEntry> devices
+    ) {
+        this(subnet, source, observedAt, devices, null);
+    }
 }
 
 record NeighborEntry(String address, String macAddress, String detectionMethod) {
